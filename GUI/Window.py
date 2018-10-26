@@ -10,8 +10,9 @@ Proof of concept for window creation in Python
 # TODO: create spaces to collect user info
 # TODO: create spaces to collect movie info
 # TODO: figure out how to send that data to an Engine() object
+# TODO: look up drop-down menus for genres?
 
-# does this need to generate a class or can it run as a script?
+# I think this file should be an object class rather than a script
 
 
 def click():
