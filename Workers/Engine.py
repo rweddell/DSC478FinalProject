@@ -6,7 +6,7 @@ Retrieves DataStorage from csv file
 
 """
 
-from Algorithms import MovieData
+from Workers import MovieData
 from sklearn.neighbors import KNeighborsClassifier as knn
 
 

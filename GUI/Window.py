@@ -1,6 +1,7 @@
 
 import tkinter as tk
 from tkinter import *
+from Workers import Engine
 
 """
 Proof of concept for window creation in Python
@@ -23,7 +24,7 @@ Label(window, bg='grey', text='Input a movie or genre').grid(row=0, column=1, st
 title_entry = Entry(window, width=20, bg='white')
 title_entry.grid(row=2, column=1, sticky=W)
 
-movie_out = Text(window, width=20, height=1, backgroun='grey')
+movie_out = Text(window, width=20, height=1, background='grey')
 movie_out.grid(row=5, column=1, sticky=W)
 
 Button(window, text='SUBMIT', width=6, command=click).grid(row=3, column=1, sticky=W)
