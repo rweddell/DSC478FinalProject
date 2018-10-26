@@ -15,6 +15,11 @@ class Engine:
     def __init__(self):
         self.movie_data = MovieData
 
+    def apply_knn(self):
+        pass
+
+
+
 
 
 

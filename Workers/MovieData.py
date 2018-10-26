@@ -9,12 +9,13 @@ class MovieData:
 
     def __init__(self):
         self.data = pd.read_csv('DataStorage\movies_metadata.csv')
-        #TODO: call preprocess to get target variable from data
+        # TODO: call preprocess to get target variable from data
         self.targets = 'something totally cool'
         print(self.data.head())
 
     def preprocess(self):
         # TODO: at least get target variables from data, but clean if necessary
+        # have to normalize all this crap: get_dummies()?
         pass
 
     def split_data(self, test_size):

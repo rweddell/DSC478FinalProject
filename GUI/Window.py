@@ -7,6 +7,12 @@ from Workers import Engine
 Proof of concept for window creation in Python
 """
 
+# TODO: create spaces to collect user info
+# TODO: create spaces to collect movie info
+# TODO: figure out how to send that data to an Engine() object
+
+# does this need to generate a class or can it run as a script?
+
 
 def click():
     title = title_entry.get()
