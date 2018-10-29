@@ -26,6 +26,7 @@ class UserHandler:
         # new_prefs should be a DataFrame
         if new_prefs == None:
             print('Yo, that doesn\'t work')
+            return
         else:
             new_prefs.to_csv(str(self.cur_name) + '.csv')
-    # TODO: can update new user preferences here
+        # TODO: can update new user preferences here

@@ -7,6 +7,9 @@ from Workers import Engine
 Proof of concept for window creation in Python
 """
 
+# TODO: The big decision for this file is to decide if we want a desktop app or web app
+
+
 # TODO: create spaces to collect user info
 # TODO: create spaces to collect movie info
 # TODO: figure out how to send that data to an Engine() object

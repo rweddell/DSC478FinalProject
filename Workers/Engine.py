@@ -9,6 +9,8 @@ Retrieves DataStorage from csv file
 from Workers import MovieData, UserHandler
 from sklearn.neighbors import KNeighborsClassifier as knn
 
+# TODO: this class should be called by the window script/class
+
 
 class Engine:
 
