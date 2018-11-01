@@ -28,5 +28,5 @@ class UserHandler:
             print('Yo, that doesn\'t work')
             return
         else:
+            # TODO: can update new user preferences here
             new_prefs.to_csv(str(self.cur_name) + '.csv')
-        # TODO: can update new user preferences here
