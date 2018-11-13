@@ -9,15 +9,14 @@ import os
 class MovieData:
 
     def __init__(self):
-        os.chdir('DataStorage')
-        self.datafile = pd.read_csv('movies_metadata.csv')
-        os.chdir('..')
-        os.chdir('Workers')
+
+        self.data_path = os.path.join(os.getcwd(), 'DataStorage')
+        self.datafile = pd.read_csv(os.path.join(self.data_path, 'movies_metadata.csv'))
         # TODO: call preprocess to get target variable from data
         # self.datafile could be split into target and data
         # should probably change with each search
-        self.data = 'something totally cool'
-        self.target = 'something else totally cool'
+        self.data = 'This variable should contain the movie data'
+        self.target = 'This variable should contain the target data'
 
     def preprocess(self):
         # TODO: at least get target variables from data, but clean if necessary
@@ -32,7 +31,6 @@ class MovieData:
     def split_data(self, test_size):
         # not sure if we need this function
         return train_test_split(self.data, self.target, test_size, random_state=33)
-
 
 '''
 def test_movie():
