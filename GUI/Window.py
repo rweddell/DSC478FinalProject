@@ -13,15 +13,17 @@ Proof of concept for window creation in Python
 # TODO: create spaces to collect user info
 # TODO: create spaces to collect movie info
 # TODO: figure out how to send that data to an Engine() object
-# TODO: look up drop-down menus for genres?
-
-# I think this file should be an object class rather than a script
+# TODO: look up drop-down menus for genres? --In progress
 
 
 def click():
     title = title_entry.get()
     title_entry.delete(0, END)
     movie_out.insert(END, title)
+
+
+def change_genre(*args):
+    print(chosen_genre.get())
 
 
 window = tk.Tk()
@@ -39,5 +41,17 @@ movie_out.grid(row=5, column=1, sticky=W)
 
 Button(window, text='SUBMIT', width=6, command=click).grid(row=3, column=1, sticky=W)
 
+genres = ['Action', 'Adventure', 'Comedy', 'Crime',
+          'Drama', 'Fantasy', 'History', 'Horror',
+          'Science', 'Thriller']
+
+chosen_genre = StringVar(window)
+# sets the default genre to 'Action'
+chosen_genre.set(genres[0])
+genre_menu = OptionMenu(window, chosen_genre, *genres)
+Label(window, text='Choose a genre').grid(row=6, column=1)
+genre_menu.grid(row=7, column=1)
+
+chosen_genre.trace('w', change_genre)
 
 window.mainloop()

@@ -32,12 +32,12 @@ class MovieData:
         # not sure if we need this function
         return train_test_split(self.data, self.target, test_size, random_state=33)
 
-'''
+
 def test_movie():
     md = MovieData()
-    print(md.datafile.head())
+    print(md.datafile)
 
 
 test_movie()
-'''
+
 
