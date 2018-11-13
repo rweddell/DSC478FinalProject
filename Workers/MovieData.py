@@ -36,7 +36,14 @@ class MovieData:
 def test_movie():
     md = MovieData()
     print(md.datafile)
-
+    genres = []
+    '''
+    for thing in md.datafile.Genre:
+        if thing not in genres:
+            genres.append(thing)
+    for thing in sorted(genres):
+        print(thing)
+    '''
 
 test_movie()
 
