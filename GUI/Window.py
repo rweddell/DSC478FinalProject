@@ -2,7 +2,9 @@
 import tkinter as tk
 from tkinter import *
 from Workers import Engine
-from GUI import Recommender, Login
+from GUI import Recommender
+from GUI import Login
+
 
 
 """
@@ -26,7 +28,7 @@ class Window(tk.Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
         self.frames = {}
-        for f in (Login, Recommender):
+        for f in (Login.Login, Recommender.Recommender):
             frame = f(container, self)
             self.frames[f] = frame
             frame.grid(row=0, column=0, sticky='nsew')
@@ -40,43 +42,5 @@ class Window(tk.Tk):
         frame = self.frames[Recommender]
         frame.tkraise()
 
-def click():
-    title = title_entry.get()
-    title_entry.delete(0, END)
-    movie_out.insert(END, title)
 
-
-def change_genre(*args):
-    print(chosen_genre.get())
-
-
-window = tk.Tk()
-window.title('Greatest Movie Recommender Ever')
-window.minsize(500, 500)
-window.configure(background='grey')
-
-Label(window, bg='grey', text='Input a movie or genre').grid(row=0, column=1, sticky=W)
-
-title_entry = Entry(window, width=20, bg='white')
-title_entry.grid(row=2, column=1, sticky=W)
-
-movie_out = Text(window, width=20, height=1, background='grey')
-movie_out.grid(row=5, column=1, sticky=W)
-
-Button(window, text='SUBMIT', width=6, command=click).grid(row=3, column=1, sticky=W)
-
-genres = ['Action', 'Adventure', 'Animation' 'Comedy', 'Crime',
-          'Documentary', 'Drama', 'Family', 'Fantasy', 'History',
-          'Horror', 'Music', 'Mystery', 'Romance', 'Science'
-          'Thriller', 'War', 'Western']
-
-chosen_genre = StringVar(window)
-# sets the default genre to 'Action'
-chosen_genre.set(genres[0])
-genre_menu = OptionMenu(window, chosen_genre, *genres)
-Label(window, text='Choose a genre').grid(row=6, column=1)
-genre_menu.grid(row=7, column=1)
-
-chosen_genre.trace('w', change_genre)
-
-window.mainloop()
+larry = Window()
