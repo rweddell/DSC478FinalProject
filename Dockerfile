@@ -3,11 +3,11 @@ FROM python:3
 
 ENV PYTHONBUFFERED 1
 
-RUN mkdir /app
+RUN mkdir /movies
 
-WORKDIR /app
+WORKDIR /movies
 
-COPY . /app
+ADD . /movies
 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 

@@ -1,0 +1,22 @@
+version: '3.6'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  web:
+    build: .
+    command: python /movies/manage.py migrate --noinput
+    command: python /movies/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/movies
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=changemeinprod
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
