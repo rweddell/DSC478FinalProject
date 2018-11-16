@@ -36,7 +36,7 @@ class Engine:
 
     def get_content_recommendations(self, title):
         # Get the index of the movie that matches the title
-        idx = self.movie_data.indices[title]
+        idx = self.movie_data.data.title[self.movie_data.data.title == title].index
         # Get cosine similarity matrix from MovieData
         cosine_sim = self.movie_data.cosine_sim
         # Get the pairwise similarity scores of all movies with that movie
