@@ -33,11 +33,21 @@ class MovieData:
         # Filter out all qualified movies into a new DataFrame (about 4555 entries)
         data = self.datafile.copy().loc[self.datafile['vote_count'] >= min_votes]
         # Append weighted scores to new DataFrame
-        data['score'] = data.apply(data.weighted_rating, axis=1)
+        data['score'] = data.apply(data.weighted_rating(min_votes, mean_score), axis=1)
         # Drop duplicates
         data.drop_duplicates(inplace=True)
         # Reassign indices of data
         data = data.reset_index(drop=True, inplace=True)
+        # Get credits & keywords then merge them with movie metadata
+        creds = pd.read_csv(os.path.join(self.data_path, 'credits.csv'))
+        keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
+        # Convert IDs to int. Required for merging
+        keywords['id'] = keywords['id'].astype('int')
+        creds['id'] = creds['id'].astype('int')
+        data['id'] = data['id'].astype('int')
+        # Merge keywords and credits into dataframe
+        data = data.merge(creds, on='id')
+        data = data.merge(keywords, on='id')
         # Define a TF-IDF Vectorizer Object. Remove all english stop words such as 'the', 'a'
         tfidf = TfidfVectorizer(stop_words='english')
         # Replace NaN with an empty string
@@ -52,6 +62,7 @@ class MovieData:
     def reassign_target(self, new_target):
         # new_target should be a column name in the movie data set
         self.target = new_target
+
     # or this...
     def split_data(self, test_size):
         return train_test_split(self.data, self.target, test_size, random_state=33)
