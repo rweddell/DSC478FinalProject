@@ -15,7 +15,7 @@ class MovieData:
         self.data_path = os.path.join(os.getcwd(), 'DataStorage')
         self.datafile = pd.read_csv(os.path.join(self.data_path, 'movies_metadata.csv'))
         # Create reduced dimension data set & cosine similarity matrix
-        self.data, self.cosine_sim = self.datafile.preprocess()
+        self.data, self.cosine_sim = self.preprocess()
         # not sure we need a target variable...
         self.target = 'This variable should contain the target data'
         # Construct a reverse map of indices and movie titles
@@ -27,13 +27,13 @@ class MovieData:
     def preprocess(self):
         # TODO: at least get target variables from data, but clean if necessary & reduce dimension size
         # Calculate the minimum number of votes required to be in the chart (90th percentile)
-        min_votes = self.datafile['vote_count'].quantile(0.90)
+        min_votes = float(self.datafile['vote_count'].quantile(0.90))
         # Calculate mean average vote across entire dataset ala IMDB
-        mean_score = self.datafile['vote_average'].mean()
+        mean_score = float(self.datafile['vote_average'].mean())
         # Filter out all qualified movies into a new DataFrame (about 4555 entries)
         data = self.datafile.copy().loc[self.datafile['vote_count'] >= min_votes]
         # Append weighted scores to new DataFrame
-        data['score'] = data.apply(data.weighted_rating(min_votes, mean_score), axis=1)
+        data['score'] = self.weighted_rating(data, min_votes, mean_score)
         # Drop duplicates
         data.drop_duplicates(inplace=True)
         # Reassign indices of data
@@ -68,11 +68,17 @@ class MovieData:
         return train_test_split(self.data, self.target, test_size, random_state=33)
 
     # Function that computes the weighted rating of each movie
-    def weighted_rating(self, m, c):
-        v = self['vote_count']
-        r = self['vote_average']
+    def weighted_rating(self, df, m, c):
+        size = len(df['vote_count'])
+        print(m, c)
+        wr = []
+        for i in range(size):
+            v = df['vote_count'].loc[i].astype(float)
+            r = df['vote_average'].loc[i].astype(float)
+            print(v,r)
+            wr.append(v / (v + m) * r) + (m / (m + v) * c)
         # Calculation based on the IMDB formula
-        return (v / (v + m) * r) + (m / (m + v) * c)
+        return pd.Series(wr)
 
 
 def test_movie():

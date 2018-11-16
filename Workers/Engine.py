@@ -15,8 +15,8 @@ from sklearn.neighbors import KNeighborsClassifier as knn
 class Engine:
 
     def __init__(self):
-        self.movie_data = MovieData
-        self.user_handler = UserHandler
+        self.movie_data = MovieData.MovieData()
+        self.user_handler = UserHandler.UserHandler()
 
     def collect(self, preferences, user):
         # collects user data from Window class
