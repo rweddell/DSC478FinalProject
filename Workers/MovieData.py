@@ -14,6 +14,7 @@ class MovieData:
         self.data_path = os.path.join(os.getcwd(), 'DataStorage')
         self.data_unzip()
         self.datafile = pd.read_csv(os.path.join(self.data_path, 'movies_metadata.csv'), low_memory=False)
+        self.ratings = pd.read_csv(os.path.join(self.data_path, 'ratings_small.csv'), low_memory=False)
         # Create reduced dimension data set & cosine similarity matrix
         self.data, self.cosine_sim, self.tfidf_matrix = self.preprocess()
         # Construct a reverse map of indices and movie titles
@@ -54,6 +55,7 @@ class MovieData:
         tfidf_matrix = tfidf.fit_transform(data['overview'])
         # Compute the cosine similarity matrix
         cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+        print(self.ratings.head())
         return data, cosine_sim, tfidf_matrix
 
     # Function that computes the weighted rating of each movie
