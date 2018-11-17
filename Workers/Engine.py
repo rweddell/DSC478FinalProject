@@ -37,7 +37,9 @@ class Engine:
         neigh.fit(self.movie_data.tfidf_matrix)
         # Get index of k nearest neighbors
         kneighbors = neigh.kneighbors(idxa, return_distance=False)
+        print(kneighbors)
         kneighbors = np.squeeze(kneighbors)
+        print(kneighbors)
         #movie_indices = [i[0] for i in kneighbors]
         print("sup")
         #print(movie_indices)
