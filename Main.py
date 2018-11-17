@@ -21,13 +21,17 @@ quit_words = ['exit', 'close', 'quit', 'no', 'n', 'negative', 'cancel', 'negator
 
 engine = Engine.Engine()
 
+search = [engine.get_content_recommendations(), engine.get_rating_recommendations()]
+
 while chosen not in quit_words:
     cls()
     print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER\n")
+    # TODO: here, we can add a case statement where the use can decide what search to perform: TFIDF vs Rating
     chosen = input("Enter a movie title or type 'exit' to quit:  \n")
     recs = []
     try:
         if chosen not in quit_words:
+            # TODO: this is where the chosen search would be performed
             recs = engine.get_content_recommendations(chosen)
             print()
             for i in range(len(recs.values)):
