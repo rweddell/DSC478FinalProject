@@ -35,7 +35,7 @@ while chosen not in quit_words:
     recs = []
     try:
         if chosen not in quit_words:
-            recs = engine.apply_knn(chosen)
+            recs = engine.get_content_recommendations(chosen)
             print(recs.values)
             for i in range(len(recs)):
                 print(str(i) + '  ' + str(recs[i]))
