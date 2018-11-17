@@ -87,7 +87,7 @@ class MovieData:
 
 def test_movie():
     md = MovieData()
-    print(md.datafile)
+    #print(md.datafile)
     genres = []
     '''
     for thing in md.datafile.Genre:
@@ -97,6 +97,6 @@ def test_movie():
         print(thing)
     '''
 
-test_movie()
+#test_movie()
 
 

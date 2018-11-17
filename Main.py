@@ -36,5 +36,5 @@ while chosen not in close_words:
     chosen = input('Enter a title for similarity:  ')
     engine = Engine.Engine()
     recs = engine.get_content_recommendations(chosen)
-    print(recs)
+    print(recs.values)
 
