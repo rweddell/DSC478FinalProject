@@ -30,7 +30,7 @@ class Engine:
         # recommended movies from the data set
         # MAY need to transform to np.array
         idx = self.movie_data.indices[title]
-        idxa = self.movie_data.tfidf_matrix[idx]
+        idxa = self.movie_data.data.title[self.movie_data.data.title == title].index
         print(idxa.shape)
         print(idxa)
         neigh = nn(n_neighbors=10)

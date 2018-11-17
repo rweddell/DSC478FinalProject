@@ -37,15 +37,15 @@ while chosen not in quit_words:
     try:
         if chosen not in quit_words:
             engine = Engine.Engine()
-            recs = engine.get_content_recommendations(chosen)
+            recs = engine.apply_knn(chosen)
             print(recs.values)
-            more = input('Would you like more recommendations for similarmovies to ' + chosen + '? y/n:  ')
-            if more is 'y':
-                recs = engine.get_content_recommendations(chosen)
-                print(recs.values)
-                print("Ha, it's the same stuff.")
+            #more = input('Would you like more recommendations for similar movies to ' + chosen + '? y/n:  ')
+            #if more is 'y':
+            #    recs = engine.apply_knn(chosen)
+            #    print(recs.values)
+            #    print("Ha, it's the same stuff.")
             print("Type 'exit' to quit or,")
-    except:
+    except KeyError:
         print('Sorry, we could not find that movie')
 
 print('Thanks for using the GREATEST MOVIE RECOMMENDER EVER')
