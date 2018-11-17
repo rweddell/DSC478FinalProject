@@ -31,7 +31,7 @@ engine = Engine.Engine()
 while chosen not in quit_words:
     cls()
     print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER")
-    chosen = input("Enter a movie title or type 'exit' to quit:  ")
+    chosen = rawinput("Enter a movie title or type 'exit' to quit:  ")
     recs = []
     try:
         if chosen not in quit_words:

@@ -6,8 +6,12 @@ Movie recommender system using the movielens.com dataset
 
 Main.py is the main script
 
-We run this from Docker with
 
-docker build -t movierecommender
+We created a docker container with:
 
-docker run -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw movierecommender
+    docker build -t movierecommender
+
+
+We ran the application with:
+
+    docker run -ti movierecommender
