@@ -6,6 +6,10 @@ Retrieves DataStorage from csv file
 """
 
 from Workers import MovieData, UserHandler
+import warnings
+import wikipedia
+
+warnings.filterwarnings('ignore')
 from sklearn.neighbors import NearestNeighbors as nn
 import numpy as np
 
@@ -72,5 +76,32 @@ class Engine:
         return top_movies[['title', 'vote_count', 'vote_average', 'score']].head(n)
 
 
-
-
+    # returns the first paragraph (as a string) of the wikipedia article most closely associated with the word
+    def find_summary(self, ename):
+        # TODO: deal with the disambiguation warning
+        # could start off with taking the first entry for the word from wikipedia
+        ambiguities = []
+        brief = ""
+        try:
+            brief = wikipedia.summary(ename + ' movie')
+        except (wikipedia.exceptions.DisambiguationError, UserWarning) as exc:
+            print("Ambiguity error")
+            ambiguities = exc.options
+            brief = ""
+        except wikipedia.exceptions.PageError:
+            print("No page found for : {}".format(ename))
+        while brief == "" and ambiguities != []:
+            try:
+                while ambiguities != []:
+                    option = ambiguities.pop()
+                    clarify = input("Did you mean {}? y/n :  ".format(option)).lower()
+                    if clarify == "y":
+                        brief = wikipedia.summary(option)
+                        break
+                    else:
+                        pass
+            except wikipedia.exceptions.DisambiguationError as cxe:
+                print("Ran out of options. Try another word.")
+        if brief == "":
+            print("Ran out of options. Try another word.")
+        return brief
