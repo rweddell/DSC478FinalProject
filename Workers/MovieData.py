@@ -16,7 +16,7 @@ class MovieData:
         self.data_path = os.path.join(os.getcwd(), 'DataStorage')
         self.datafile = pd.read_csv(os.path.join(self.data_path, 'short_metadata.csv'))
         # Create reduced dimension data set & cosine similarity matrix
-        self.data, self.cosine_sim = self.preprocess()
+        self.data, self.cosine_sim, self.tfidf_matrix = self.preprocess()
         # not sure we need a target variable...
         self.target = 'This variable should contain the target data'
         # Construct a reverse map of indices and movie titles
@@ -61,7 +61,7 @@ class MovieData:
         tfidf_matrix = tfidf.fit_transform(data['overview'])
         # Compute the cosine similarity matrix
         cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
-        return data, cosine_sim
+        return data, cosine_sim, tfidf_matrix
 
     # still not sure this is needed
     def reassign_target(self, new_target):
