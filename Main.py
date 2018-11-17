@@ -42,6 +42,10 @@ while chosen not in quit_words:
                 print(str(i) + '  ' + str(recs[i]))
             print('Would you like to know more about any of these titles?')
             more = input('Type the name or index of movie, or type "exit"')
+            try:
+                more = int(more)
+            except ValueError:
+                pass
             if more in quit_words:
                 break
             else:
