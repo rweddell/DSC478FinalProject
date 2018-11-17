@@ -5,18 +5,6 @@ from Workers import Engine
 The main script for the machine-learning movie recommender
 """
 
-def find_title(title, engineer, k=5):
-    return engineer.get_content_recommendations(title)
-
-
-def find_genre(genre, engineer, k=5):
-    # 'genre' should be a list
-    sims = []
-    for entry in genre:
-        pass
-    pass
-
-
 print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER")
 
 genres = ['Action', 'Adventure', 'Animation' 'Comedy', 'Crime',
@@ -30,11 +18,23 @@ for g in genres:
 
 
 chosen = ''
-close_words = ['exit', 'close', 'quit']
+quit_words = ['exit', 'close', 'quit']
 
-while chosen not in close_words:
+while chosen not in quit_words:
     chosen = input('Enter a title for similarity:  ')
-    engine = Engine.Engine()
-    recs = engine.get_content_recommendations(chosen)
-    print(recs.values)
+    try:
+        if chosen not in quit_words:
+            engine = Engine.Engine()
+            recs = engine.get_content_recommendations(chosen)
+            print(recs.values)
+            more = input('Would you like more recommendations for similarmovies to ' + chosen + '? y/n:  ')
+            if more is 'y':
+                recs = engine.get_content_recommendations(chosen)
+                print(recs.values)
+                print("Ha, it's the same stuff.")
+            print("Type 'exit' to quit or,")
+    except:
+        print('Sorry, we could not find that movie')
+
+print('Thanks for using the GREATEST MOVIE RECOMMENDER EVER')
 
