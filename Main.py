@@ -37,6 +37,7 @@ while chosen not in quit_words:
         if chosen not in quit_words:
             recs = engine.get_content_recommendations(chosen)
             print(recs.values)
+            print(type(recs))
             for i in range(len(recs)):
                 print(str(i) + '  ' + str(recs[i]))
             print('Would you like to know more about any of these titles?')
@@ -47,9 +48,8 @@ while chosen not in quit_words:
                 if type(more) == int:
                     more = recs[more]
                 print(engine.find_summary(more))
-        larry = input('was it good for you?')
-
-    except KeyError:
+    except KeyError as ke:
+        print(ke)
         print('Sorry, we could not find that movie')
     except ValueError as val:
         print(val)
