@@ -62,15 +62,18 @@ class MovieData:
         # see about genre...
         data['genres'] = data['genres'].fillna('[]').apply(literal_eval).apply(
             lambda x: [i['name'] for i in x] if isinstance(x, list) else [])
+        # Stem words
+        snowball = SnowballStemmer('english')
+        data['keywords'] = data['keywords'].apply(lambda x: [snowball.stem(i) for i in x])
+        data['tagline'] = data['tagline'].apply(lambda x: [snowball.stem(i) for i in x])
+        data['overview'] = data['overview'].apply(lambda x: [snowball.stem(i) for i in x])
+        data['genres'] = data['genres'].apply(lambda x: [snowball.stem(i) for i in x])
         # Convert values to strings for concatenation
         data['keywords'] = data['keywords'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
         data['tagline'] = data['tagline'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
         data['overview'] = data['overview'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
-        # Stem words
-        stem = SnowballStemmer('english')
-        
+        # Create wordsalad for Tfidf evaluation
         data['wordsalad'] = data['overview'] + data['tagline'] + data['keywords'] + data['genres']
-        data['wordsalad'] = data['wordsalad'].fillna('')
         data['wordsalad'] = data['wordsalad'].apply(lambda x: ' '.join(x))
         # Define a TF-IDF Vectorizer Object. Remove all english stop words such as 'the', 'a'
         tfidf = TfidfVectorizer(stop_words='english')
@@ -78,14 +81,8 @@ class MovieData:
         tfidf_matrix = tfidf.fit_transform(data['wordsalad'])
         # Compute the cosine similarity matrix
         cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+        print(cosine_sim.shape)
         return data, cosine_sim, tfidf_matrix
-
-    def filter_keywords(self, s):
-        words = []
-        for i in self:
-            if i in s:
-                words.append(i)
-        return words
 
     def data_unzip(self):
         zip_ref = ZipFile(os.path.join(self.data_path, 'movies_metadata.zip'), 'r')
