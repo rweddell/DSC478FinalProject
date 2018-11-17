@@ -34,18 +34,20 @@ class MovieData:
         # Append weighted scores to new DataFrame
         data['scores'] = data.apply(lambda x: (x['vote_count']/(x['vote_count']+min_votes) *
                                               x['vote_average']) + (min_votes/(min_votes+x['vote_count']) * mean_score), axis=1)
-        print(data['scores'])
         # Drop duplicates
         data.drop_duplicates(inplace=True)
         # Reassign indices of data
         data.reset_index(drop=True, inplace=True)
         # Get credits & keywords then merge them with movie metadata
         keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
+        data['id'] = data['id'].astype('int')
+        links_small = pd.read_csv(os.path.join(self.data_path, 'links_small.csv'), low_memory=False)
+        links_small = links_small[links_small['tmdbId'].notnull()]['tmdbId'].astype('int')
+        data = data[data['id'].isin(links_small)]
+        print(data.shape)
         # Convert IDs to int. Required for merging
         keywords['id'] = keywords['id'].astype('int')
-        data['id'] = data['id'].astype('int')
         # Merge keywords and credits into dataframe
-        #data = data.merge(creds, on='id')
         data = data.merge(keywords, on='id')
         # Define a TF-IDF Vectorizer Object. Remove all english stop words such as 'the', 'a'
         tfidf = TfidfVectorizer(stop_words='english')
