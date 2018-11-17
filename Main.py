@@ -5,7 +5,7 @@ with warnings.catch_warnings(record=True) as warn:
     from Workers import Engine
 
 
-# The main script for the machine-learning movie recommender
+# The main script for a machine-learning movie recommender
 
 
 def cls():
@@ -30,14 +30,14 @@ while chosen not in quit_words:
         if chosen not in quit_words:
             recs = engine.get_content_recommendations(chosen)
             print()
-            #for entry in recs.values:
-            #    print(entry)
             for i in range(len(recs.values)):
                 print(i, recs.values[i])
             print('\nWould you like to know more about any of these titles?')
-            more = input('Type the title or "exit":  \n')
+            more = input('Type the title or title index or type "exit":  \n')
             if more in quit_words:
                 break
+            elif more.isnumeric():
+                more = recs.values[int(more)]
             if more not in recs.values:
                 print("That wasn't in the list of choices.")
             else:
@@ -51,6 +51,7 @@ while chosen not in quit_words:
         print('Something went wrong\n')
     if chosen not in quit_words:
         chosen = input('Do you want to continue? \n')
-
+cls()
+print()
 print('Thanks for using the GREATEST MOVIE RECOMMENDER EVER')
 
