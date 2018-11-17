@@ -54,7 +54,7 @@ class Engine:
         ambiguities = []
         brief = ""
         try:
-            brief = wikipedia.summary(ename + ' movie')
+            brief = wikipedia.summary(ename + ' the movie')
         except (wikipedia.exceptions.DisambiguationError, UserWarning) as exc:
             print("Ambiguity error")
             ambiguities = exc.options

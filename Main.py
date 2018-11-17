@@ -1,15 +1,15 @@
 
 import warnings
+import os
 with warnings.catch_warnings(record=True) as warn:
     from Workers import Engine
-import os
 
 
 # The main script for the machine-learning movie recommender
 
 
 def cls():
-    # clears the console when called from shell/cmd
+    # clears the console when called from shell/console
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
@@ -17,7 +17,7 @@ print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER")
 
 chosen = ''
 
-quit_words = ['exit', 'close', 'quit', 'no', 'n']
+quit_words = ['exit', 'close', 'quit', 'no', 'n', 'negative', 'cancel', 'negatory', 'nope', 'escape']
 
 engine = Engine.Engine()
 
@@ -29,17 +29,20 @@ while chosen not in quit_words:
     try:
         if chosen not in quit_words:
             recs = engine.get_content_recommendations(chosen)
-            for entry in recs.values:
-                print(entry)
-            print('Would you like to know more about any of these titles?')
+            print()
+            #for entry in recs.values:
+            #    print(entry)
+            for i in range(len(recs.values)):
+                print(i, recs.values[i])
+            print('\nWould you like to know more about any of these titles?')
             more = input('Type the title or "exit":  \n')
             if more in quit_words:
                 break
+            if more not in recs.values:
+                print("That wasn't in the list of choices.")
             else:
-                if type(more) == int:
-                    more = recs[more]
                 print(engine.find_summary(more))
-            print('\n')
+            print()
     except (KeyError, IndexError) as ke:
         print(ke)
         print('Sorry, we could not find that movie\n')
