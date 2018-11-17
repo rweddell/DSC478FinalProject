@@ -39,7 +39,9 @@ class MovieData:
         # Drop duplicates
         data.drop_duplicates(inplace=True)
         # Reassign indices of data
-        #data = data.reset_index(drop=True, inplace=True)
+        print(data.head())
+        data.reset_index(drop=True, inplace=True)
+        print(data.head())
         # Get credits & keywords then merge them with movie metadata
         #creds = pd.read_csv(os.path.join(self.data_path, 'credits.csv'))
         keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
