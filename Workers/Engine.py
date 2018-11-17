@@ -61,7 +61,7 @@ class Engine:
         movies = movies.sort_values('scores', ascending=False).head(10)
         # Return the top 10 most similar movies
         #return self.movie_data.data['title'].iloc[movies.index]
-        return movies['title']
+        return movies
 
     def get_top_movies(self, n):
         # Sort movies based on weighted score

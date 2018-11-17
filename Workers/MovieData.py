@@ -62,13 +62,18 @@ class MovieData:
         # see about genre...
         data['genres'] = data['genres'].fillna('[]').apply(literal_eval).apply(
             lambda x: [i['name'] for i in x] if isinstance(x, list) else [])
+        # Stem words
+        stemmer = SnowballStemmer('english')
+        data['keywords'] = data['keywords'].apply(lambda x: [stemmer.stem(i) for i in x])
+        data['tagline'] = data['tagline'].apply(lambda x: [stemmer.stem(i) for i in x])
+        data['overview'] = data['overview'].apply(lambda x: [stemmer.stem(i) for i in x])
+        data['genres'] = data['genres'].apply(lambda x: [stemmer.stem(i) for i in x])
         # Convert values to strings for concatenation
         data['keywords'] = data['keywords'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
         data['tagline'] = data['tagline'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
         data['overview'] = data['overview'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
-        # Stem words
-        stemmer = SnowballStemmer('english')
-        data['keywords'] = data['keywords'].apply(lambda x: [stemmer.stem(i) for i in x])
+
+        # Create wordsalad series for submission to TfidfVectorizer
         data['wordsalad'] = data['overview'] + data['tagline'] + data['keywords'] + data['genres']
         data['wordsalad'] = data['wordsalad'].fillna('')
         data['wordsalad'] = data['wordsalad'].apply(lambda x: ' '.join(x))
