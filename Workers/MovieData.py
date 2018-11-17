@@ -31,21 +31,18 @@ class MovieData:
         mean_score = float(self.datafile['vote_average'].mean())
         # Filter out all qualified movies into a new DataFrame (about 4555 entries)
         data = self.datafile.loc[self.datafile.vote_count >= min_votes].copy()
+        print(data.head())
         # Append weighted scores to new DataFrame
         #data['score'] = self.weighted_rating(data, min_votes, mean_score)
         # Drop duplicates
         data.drop_duplicates(inplace=True)
         # Reassign indices of data
         data.reset_index(drop=True, inplace=True)
-        # Get credits & keywords then merge them with movie metadata
-        #creds = pd.read_csv(os.path.join(self.data_path, 'credits.csv'))
         keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
         # Convert IDs to int. Required for merging
         keywords['id'] = keywords['id'].astype('int')
-        #creds['id'] = creds['id'].astype('int')
         data['id'] = data['id'].astype('int')
-        # Merge keywords and credits into dataframe
-        #data = data.merge(creds, on='id')
+        # Merge keywords into dataframe
         data = data.merge(keywords, on='id')
         # Define a TF-IDF Vectorizer Object. Remove all english stop words such as 'the', 'a'
         tfidf = TfidfVectorizer(stop_words='english')
@@ -75,20 +72,3 @@ class MovieData:
         zip_ref = ZipFile(os.path.join(self.data_path, 'movies_metadata.zip'), 'r')
         zip_ref.extractall(self.data_path)
         zip_ref.close()
-
-
-def test_movie():
-    md = MovieData()
-    print(md.datafile)
-    genres = []
-    '''
-    for thing in md.datafile.Genre:
-        if thing not in genres:
-            genres.append(thing)
-    for thing in sorted(genres):
-        print(thing)
-    '''
-
-#test_movie()
-
-
