@@ -45,7 +45,7 @@ while chosen not in quit_words:
                 print(recs.values)
                 print("Ha, it's the same stuff.")
             print("Type 'exit' to quit or,")
-    except:
+    except KeyError:
         print('Sorry, we could not find that movie')
 
 print('Thanks for using the GREATEST MOVIE RECOMMENDER EVER')

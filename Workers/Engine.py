@@ -29,7 +29,7 @@ class Engine:
         # should return a predicted class that can be used to recall
         # recommended movies from the data set
         # MAY need to transform to np.array
-        idx = self.movie_data.indices[title]
+        idx = self.movie_data.data.title[self.movie_data.data.title == title].index
         idxa = self.movie_data.tfidf_matrix[idx]
         print(idxa.shape)
         print(idxa)

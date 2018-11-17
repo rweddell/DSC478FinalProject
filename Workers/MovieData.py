@@ -37,7 +37,7 @@ class MovieData:
         # Append weighted scores to new DataFrame
         #data['score'] = self.weighted_rating(data, min_votes, mean_score)
         # Drop duplicates
-        #data.drop_duplicates(inplace=True)
+        data.drop_duplicates(inplace=True)
         # Reassign indices of data
         #data = data.reset_index(drop=True, inplace=True)
         # Get credits & keywords then merge them with movie metadata
@@ -57,8 +57,10 @@ class MovieData:
         tfidf = TfidfVectorizer(stop_words='english')
         # Replace NaN with an empty string
         data['overview'] = data['overview'].fillna('')
+        print(data.shape)
         # Construct the required TF-IDF matrix by fitting and transforming the data
         tfidf_matrix = tfidf.fit_transform(data['overview'])
+        print(tfidf_matrix.shape)
         # Compute the cosine similarity matrix
         cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
         return data, cosine_sim, tfidf_matrix
