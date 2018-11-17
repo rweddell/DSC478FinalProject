@@ -38,10 +38,8 @@ class MovieData:
         data.drop_duplicates(inplace=True)
         # Reassign indices of data
         data.reset_index(drop=True, inplace=True)
-        # Get keywords then merge them with movie metadata
         keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
         keywords['id'] = keywords['id'].astype('int')
-        # Convert IDs to int. Required for merging
         data['id'] = data['id'].astype('int')
         # Merge keywords into dataframe
         data = data.merge(keywords, on='id')
