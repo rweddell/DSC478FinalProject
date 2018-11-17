@@ -1,4 +1,21 @@
-from Workers import *
+
+from Workers import Engine
+
+"""
+The main script for the machine-learning movie recommender
+"""
+
+def find_title(title, engineer, k=5):
+    return engineer.get_content_recommendations(title)
+
+
+def find_genre(genre, engineer, k=5):
+    # 'genre' should be a list
+    sims = []
+    for entry in genre:
+        pass
+    pass
+
 
 print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER")
 
@@ -12,12 +29,12 @@ for g in genres:
     genrestring = genrestring + g + ' '
 
 
-print('You can select from these genres')
-print(genrestring)
-chosen = input('Enter one or more genres separated by spaces')
+chosen = ''
+close_words = ['exit', 'close', 'quit']
 
-chosen_tokens = chosen.split()
-
-
-
+while chosen not in close_words:
+    chosen = input('Enter a title for similarity:  ')
+    engine = Engine.Engine()
+    recs = engine.get_content_recommendations(chosen)
+    print(recs)
 
