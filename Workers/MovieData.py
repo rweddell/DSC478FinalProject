@@ -24,7 +24,7 @@ class MovieData:
         return "Attribute does not exist."
 
     def preprocess(self):
-        # TODO: at least get target variables from data, but clean if necessary & reduce dimension size 
+        # TODO: at least get target variables from data, but clean if necessary & reduce dimension size
         # Calculate the minimum number of votes required to be in the chart (90th percentile)
         min_votes = self.datafile['vote_count'].quantile(0.90)
         # Calculate mean average vote across entire dataset ala IMDB
@@ -59,22 +59,6 @@ class MovieData:
         cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
         print(self.ratings.head())
         return data, cosine_sim, tfidf_matrix
-
-    # Function that computes the weighted rating of each movie
-    def weighted_rating(self, m, c):
-        #size = len(self.shape[0])
-        #print(m, c)
-        #wr = []
-        #for i in range(size):
-        #    v = self['vote_count'].loc[i].astype(int)
-        #    r = self['vote_average'].loc[i].astype(int)
-            #print(v,r)
-         #   wr.append(v / (v + m) * r) + (m / (m + v) * c)
-        # Calculation based on the IMDB formula
-        # return pd.Series(wr)
-        v = self['vote_count']
-        r = self['vote_average']
-        return (v / (v + m) * r) + (m / (m + v) * c)
 
     def data_unzip(self):
         zip_ref = ZipFile(os.path.join(self.data_path, 'movies_metadata.zip'), 'r')
