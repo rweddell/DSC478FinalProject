@@ -9,21 +9,13 @@ The main script for the machine-learning movie recommender
 
 def cls():
     # clears the console when called from shell/cmd
-    os.system('cls' if os.name=='nt' else 'clear')
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER")
 
-genres = ['Action', 'Adventure', 'Animation' 'Comedy', 'Crime',
-          'Documentary', 'Drama', 'Family', 'Fantasy', 'History',
-          'Horror', 'Music', 'Mystery', 'Romance', 'Science'
-          'Thriller', 'War', 'Western']
-
-genrestring = ''
-for g in genres:
-    genrestring = genrestring + g + ' '
-
 chosen = ''
+
 quit_words = ['exit', 'close', 'quit', 'no', 'n']
 
 engine = Engine.Engine()
@@ -53,10 +45,10 @@ while chosen not in quit_words:
                     more = recs[more]
                 print(engine.find_summary(more))
     except KeyError as ke:
-        print(ke)
+        #print(ke)
         print('Sorry, we could not find that movie')
     except ValueError as val:
-        print(val)
+        #print(val)
         print('Something went wrong')
 
 print('Thanks for using the GREATEST MOVIE RECOMMENDER EVER')
