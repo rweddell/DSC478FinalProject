@@ -14,7 +14,8 @@ class MovieData:
     def __init__(self):
 
         self.data_path = os.path.join(os.getcwd(), 'DataStorage')
-        self.datafile = pd.read_csv(os.path.join(self.data_path, 'short_metadata.csv'), low_memory=False)
+        self.data_unzip()
+        self.datafile = pd.read_csv(os.path.join(self.data_path, 'movies_metadata.csv'), low_memory=False)
         # Create reduced dimension data set & cosine similarity matrix
         self.data, self.cosine_sim, self.tfidf_matrix = self.preprocess()
         # not sure we need a target variable...
@@ -88,6 +89,11 @@ class MovieData:
             wr.append(v / (v + m) * r) + (m / (m + v) * c)
         # Calculation based on the IMDB formula
         return pd.Series(wr)
+
+    def data_unzip(self):
+        zip_ref = ZipFile(os.path.join(self.data_path, 'movies_metadata.zip'), 'r')
+        zip_ref.extractall(self.data_path)
+        zip_ref.close()
 
 
 def test_movie():
