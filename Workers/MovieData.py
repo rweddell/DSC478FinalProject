@@ -55,7 +55,7 @@ class MovieData:
         tfidf_matrix = tfidf.fit_transform(data['overview'])
         # Compute the cosine similarity matrix
         cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
-        print(self.ratings.T.head())
+        print(self.ratings.head())
         return data, cosine_sim, tfidf_matrix
 
     # Function that computes the weighted rating of each movie

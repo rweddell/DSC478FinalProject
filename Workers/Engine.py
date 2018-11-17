@@ -8,10 +8,10 @@ Retrieves DataStorage from csv file
 from Workers import MovieData, UserHandler
 import warnings
 import wikipedia
-
-warnings.filterwarnings('ignore')
 from sklearn.neighbors import NearestNeighbors as nn
 import numpy as np
+warnings.filterwarnings('ignore')
+
 
 
 class Engine:
