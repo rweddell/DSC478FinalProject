@@ -40,11 +40,9 @@ class MovieData:
         # Reassign indices of data
         data.reset_index(drop=True, inplace=True)
         # Get credits & keywords then merge them with movie metadata
-        #creds = pd.read_csv(os.path.join(self.data_path, 'credits.csv'))
         keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
         # Convert IDs to int. Required for merging
         keywords['id'] = keywords['id'].astype('int')
-        #creds['id'] = creds['id'].astype('int')
         data['id'] = data['id'].astype('int')
         # Merge keywords and credits into dataframe
         #data = data.merge(creds, on='id')
