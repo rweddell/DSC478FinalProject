@@ -6,12 +6,11 @@ Retrieves DataStorage from csv file
 """
 
 from Workers import MovieData, UserHandler
-import warnings
 import wikipedia
-from sklearn.neighbors import NearestNeighbors as nn
 import numpy as np
-warnings.filterwarnings('ignore')
-
+import warnings
+with warnings.catch_warnings(record=True) as warn:
+    from sklearn.neighbors import NearestNeighbors as nn
 
 
 class Engine:
