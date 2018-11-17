@@ -14,7 +14,7 @@ class MovieData:
     def __init__(self):
 
         self.data_path = os.path.join(os.getcwd(), 'DataStorage')
-        self.datafile = pd.read_csv(os.path.join(self.data_path, 'movies_metadata.csv'))
+        self.datafile = pd.read_csv(os.path.join(self.data_path, 'short_metadata.csv'))
         # Create reduced dimension data set & cosine similarity matrix
         self.data, self.cosine_sim = self.preprocess()
         # not sure we need a target variable...
@@ -28,26 +28,30 @@ class MovieData:
     def preprocess(self):
         # TODO: at least get target variables from data, but clean if necessary & reduce dimension size
         # Calculate the minimum number of votes required to be in the chart (90th percentile)
-        min_votes = float(self.datafile['vote_count'].quantile(0.90))
+        min_votes = self.datafile['vote_count'].quantile(0.90)
+        #print(min_votes)
         # Calculate mean average vote across entire dataset ala IMDB
         mean_score = float(self.datafile['vote_average'].mean())
         # Filter out all qualified movies into a new DataFrame (about 4555 entries)
-        data = self.datafile.copy().loc[self.datafile['vote_count'] >= min_votes]
+        data = self.datafile.loc[self.datafile.vote_count >= min_votes].copy()
         # Append weighted scores to new DataFrame
-        data['score'] = self.weighted_rating(data, min_votes, mean_score)
+        #data['score'] = self.weighted_rating(data, min_votes, mean_score)
         # Drop duplicates
-        data.drop_duplicates(inplace=True)
+        #data.drop_duplicates(inplace=True)
         # Reassign indices of data
-        data = data.reset_index(drop=True, inplace=True)
+        #data = data.reset_index(drop=True, inplace=True)
         # Get credits & keywords then merge them with movie metadata
-        creds = pd.read_csv(os.path.join(self.data_path, 'credits.csv'))
+        #creds = pd.read_csv(os.path.join(self.data_path, 'credits.csv'))
         keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
         # Convert IDs to int. Required for merging
         keywords['id'] = keywords['id'].astype('int')
-        creds['id'] = creds['id'].astype('int')
+        #creds['id'] = creds['id'].astype('int')
+        #print(data.head())
+        #print('Type of data' + str(type(data)))
+        #print(data.columns)
         data['id'] = data['id'].astype('int')
         # Merge keywords and credits into dataframe
-        data = data.merge(creds, on='id')
+        #data = data.merge(creds, on='id')
         data = data.merge(keywords, on='id')
         # Define a TF-IDF Vectorizer Object. Remove all english stop words such as 'the', 'a'
         tfidf = TfidfVectorizer(stop_words='english')
@@ -71,12 +75,12 @@ class MovieData:
     # Function that computes the weighted rating of each movie
     def weighted_rating(self, df, m, c):
         size = len(df['vote_count'])
-        print(m, c)
+        #print(m, c)
         wr = []
         for i in range(size):
             v = df['vote_count'].loc[i].astype(float)
             r = df['vote_average'].loc[i].astype(float)
-            print(v,r)
+            #print(v,r)
             wr.append(v / (v + m) * r) + (m / (m + v) * c)
         # Calculation based on the IMDB formula
         return pd.Series(wr)
