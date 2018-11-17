@@ -68,7 +68,6 @@ class Engine:
         # Return the top 10 most similar movies
         return self.movie_data.data['title'].iloc[sim_scores]
 
-
     def get_top_movies(self, n):
         # Sort movies based on weighted score
         top_movies = self.movie_data.data.sort_values('score', ascending=False)

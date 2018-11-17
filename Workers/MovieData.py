@@ -5,7 +5,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 from zipfile import ZipFile
 import os
-
+#from surprise import Reader, Dataset, SVD, evaluate
 # Should split the data into sets in this class
 
 
