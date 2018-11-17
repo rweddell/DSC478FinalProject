@@ -32,7 +32,9 @@ class MovieData:
         # Filter out all qualified movies into a new DataFrame (about 4555 entries)
         data = self.datafile.loc[self.datafile.vote_count >= min_votes].copy()
         # Append weighted scores to new DataFrame
-        #data['score'] = self.weighted_rating(data, min_votes, mean_score)
+        data['scores'] = data.apply(lambda x: (x['vote_count']/(x['vote_count']+min_votes) *
+                                              x['vote_average']) + (min_votes/(min_votes+x['vote_count']) * mean_score), axis=1)
+        print(data['scores'])
         # Drop duplicates
         data.drop_duplicates(inplace=True)
         # Reassign indices of data
@@ -60,16 +62,19 @@ class MovieData:
 
     # Function that computes the weighted rating of each movie
     def weighted_rating(self, m, c):
-        size = len(self.data['vote_count'])
+        #size = len(self.shape[0])
         #print(m, c)
-        wr = []
-        for i in range(size):
-            v = self.data['vote_count'].loc[i].astype(float)
-            r = self.data['vote_average'].loc[i].astype(float)
+        #wr = []
+        #for i in range(size):
+        #    v = self['vote_count'].loc[i].astype(int)
+        #    r = self['vote_average'].loc[i].astype(int)
             #print(v,r)
-            wr.append(v / (v + m) * r) + (m / (m + v) * c)
+         #   wr.append(v / (v + m) * r) + (m / (m + v) * c)
         # Calculation based on the IMDB formula
-        return pd.Series(wr)
+        # return pd.Series(wr)
+        v = self['vote_count']
+        r = self['vote_average']
+        return (v / (v + m) * r) + (m / (m + v) * c)
 
     def data_unzip(self):
         zip_ref = ZipFile(os.path.join(self.data_path, 'movies_metadata.zip'), 'r')
