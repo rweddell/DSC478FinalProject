@@ -59,13 +59,13 @@ class MovieData:
         return data, cosine_sim, tfidf_matrix
 
     # Function that computes the weighted rating of each movie
-    def weighted_rating(self, df, m, c):
-        size = len(df['vote_count'])
+    def weighted_rating(self, m, c):
+        size = len(self.data['vote_count'])
         #print(m, c)
         wr = []
         for i in range(size):
-            v = df['vote_count'].loc[i].astype(float)
-            r = df['vote_average'].loc[i].astype(float)
+            v = self.data['vote_count'].loc[i].astype(float)
+            r = self.data['vote_average'].loc[i].astype(float)
             #print(v,r)
             wr.append(v / (v + m) * r) + (m / (m + v) * c)
         # Calculation based on the IMDB formula
