@@ -1,6 +1,5 @@
 
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 from zipfile import ZipFile
@@ -12,7 +11,6 @@ import os
 class MovieData:
 
     def __init__(self):
-
         self.data_path = os.path.join(os.getcwd(), 'DataStorage')
         self.data_unzip()
         self.datafile = pd.read_csv(os.path.join(self.data_path, 'movies_metadata.csv'), low_memory=False)
@@ -40,11 +38,11 @@ class MovieData:
         data.drop_duplicates(inplace=True)
         # Reassign indices of data
         data.reset_index(drop=True, inplace=True)
-        # Convert IDs to int. Required for merging
-        data['id'] = data['id'].astype('int')
         # Get keywords then merge them with movie metadata
         keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
         keywords['id'] = keywords['id'].astype('int')
+        # Convert IDs to int. Required for merging
+        data['id'] = data['id'].astype('int')
         # Merge keywords into dataframe
         data = data.merge(keywords, on='id')
         data['keywords'] = data['keywords'].apply(literal_eval)
@@ -89,20 +87,3 @@ class MovieData:
         zip_ref = ZipFile(os.path.join(self.data_path, 'movies_metadata.zip'), 'r')
         zip_ref.extractall(self.data_path)
         zip_ref.close()
-
-
-def test_movie():
-    md = MovieData()
-    print(md.datafile)
-    genres = []
-    '''
-    for thing in md.datafile.Genre:
-        if thing not in genres:
-            genres.append(thing)
-    for thing in sorted(genres):
-        print(thing)
-    '''
-
-#test_movie()
-
-
