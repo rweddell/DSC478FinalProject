@@ -66,7 +66,7 @@ class Engine:
         return top_movies[['title', 'vote_count', 'vote_average', 'score']].head(n)
 
     def find_summary(self, ename):
-    # returns the first paragraph (as a string) of the wikipedia article most closely associated with the word
+        # returns the first paragraph (as a string) of the wikipedia article most closely associated with the word
         ambiguities = []
         brief = ""
         try:
