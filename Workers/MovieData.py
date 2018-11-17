@@ -14,7 +14,7 @@ class MovieData:
     def __init__(self):
 
         self.data_path = os.path.join(os.getcwd(), 'DataStorage')
-        self.datafile = pd.read_csv(os.path.join(self.data_path, 'short_metadata.csv'))
+        self.datafile = pd.read_csv(os.path.join(self.data_path, 'short_metadata.csv'), low_memory=False)
         # Create reduced dimension data set & cosine similarity matrix
         self.data, self.cosine_sim, self.tfidf_matrix = self.preprocess()
         # not sure we need a target variable...

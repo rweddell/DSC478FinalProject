@@ -6,7 +6,7 @@ The main script for the machine-learning movie recommender
 """
 
 def find_title(title, engineer, k=5):
-    return engineer.get_content_recommendations(title)
+    return engineer.apply_knn(title)
 
 
 def find_genre(genre, engineer, k=5):
@@ -35,6 +35,7 @@ close_words = ['exit', 'close', 'quit']
 while chosen not in close_words:
     chosen = input('Enter a title for similarity:  ')
     engine = Engine.Engine()
-    recs = engine.get_content_recommendations(chosen)
+    recs = engine.apply_knn(chosen)
+    #recs = engine.get_content_recommendations(chosen)
     print(recs)
 
