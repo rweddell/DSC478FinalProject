@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 from zipfile import ZipFile
+from ast import literal_eval
 import os
 
 
@@ -38,17 +39,22 @@ class MovieData:
         data.drop_duplicates(inplace=True)
         # Reassign indices of data
         data.reset_index(drop=True, inplace=True)
-        # Get credits & keywords then merge them with movie metadata
-        keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
-        data['id'] = data['id'].astype('int')
-        links_small = pd.read_csv(os.path.join(self.data_path, 'links_small.csv'), low_memory=False)
-        links_small = links_small[links_small['tmdbId'].notnull()]['tmdbId'].astype('int')
-        data = data[data['id'].isin(links_small)]
-        print(data.shape)
         # Convert IDs to int. Required for merging
+        data['id'] = data['id'].astype('int')
+        # Get keywords then merge them with movie metadata
+        keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
         keywords['id'] = keywords['id'].astype('int')
-        # Merge keywords and credits into dataframe
+        # Merge keywords into dataframe
         data = data.merge(keywords, on='id')
+        data['keywords'] = data['keywords'].apply(literal_eval)
+        data['keywords'] = data['keywords'].apply(lambda x: [i['name'] for i in x] if isinstance(x, list) else [])
+        #links_small = pd.read_csv(os.path.join(self.data_path, 'links_small.csv'), low_memory=False)
+        #links_small = links_small[links_small['tmdbId'].notnull()]['tmdbId'].astype('int')
+        #data = data[data['id'].isin(links_small)]
+        # print(data.shape)
+        data['tagline'] = data['tagline'].fillna('')
+        data['description'] = data['overview'] + data['tagline'] + data['keywords']
+        data['description'] = data['description'].fillna('')
         # Define a TF-IDF Vectorizer Object. Remove all english stop words such as 'the', 'a'
         tfidf = TfidfVectorizer(stop_words='english')
         # Replace NaN with an empty string
@@ -57,7 +63,6 @@ class MovieData:
         tfidf_matrix = tfidf.fit_transform(data['overview'])
         # Compute the cosine similarity matrix
         cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
-        print(self.ratings.head())
         return data, cosine_sim, tfidf_matrix
 
     def data_unzip(self):
