@@ -3,14 +3,11 @@
 """
 Receives user data from GUI
 Retrieves DataStorage from csv file
-
 """
 
 from Workers import MovieData, UserHandler
 from sklearn.neighbors import NearestNeighbors as nn
 import numpy as np
-
-# TODO: this class should be called by the window script/class
 
 
 class Engine:
@@ -31,17 +28,17 @@ class Engine:
         # MAY need to transform to np.array
         idx = self.movie_data.data.title[self.movie_data.data.title == title].index
         idxa = self.movie_data.tfidf_matrix[idx]
-        print(idxa.shape)
-        print(idxa)
+        #print(idxa.shape)
+        #print(idxa)
         neigh = nn(n_neighbors=10)
         neigh.fit(self.movie_data.tfidf_matrix)
         # Get index of k nearest neighbors
         kneighbors = neigh.kneighbors(idxa, return_distance=False)
         print(kneighbors)
         kneighbors = np.squeeze(kneighbors)
-        print(kneighbors)
+        #print(kneighbors)
         #movie_indices = [i[0] for i in kneighbors]
-        print("sup")
+        #print("sup")
         #print(movie_indices)
         return self.movie_data.data['title'].iloc[kneighbors]
 

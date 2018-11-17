@@ -6,8 +6,6 @@ from sklearn.metrics.pairwise import linear_kernel
 from zipfile import ZipFile
 import os
 
-# Should split the data into sets in this class
-
 
 class MovieData:
 
@@ -40,9 +38,9 @@ class MovieData:
         # Drop duplicates
         data.drop_duplicates(inplace=True)
         # Reassign indices of data
-        print(data.head())
+        #print(data.head())
         data.reset_index(drop=True, inplace=True)
-        print(data.head())
+        #print(data.head())
         # Get credits & keywords then merge them with movie metadata
         #creds = pd.read_csv(os.path.join(self.data_path, 'credits.csv'))
         keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
@@ -60,10 +58,10 @@ class MovieData:
         tfidf = TfidfVectorizer(stop_words='english')
         # Replace NaN with an empty string
         data['overview'] = data['overview'].fillna('')
-        print(data.shape)
+        #print(data.shape)
         # Construct the required TF-IDF matrix by fitting and transforming the data
         tfidf_matrix = tfidf.fit_transform(data['overview'])
-        print(tfidf_matrix.shape)
+        #print(tfidf_matrix.shape)
         # Compute the cosine similarity matrix
         cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
         return data, cosine_sim, tfidf_matrix
