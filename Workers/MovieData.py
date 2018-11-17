@@ -24,7 +24,7 @@ class MovieData:
         return "Attribute does not exist."
 
     def preprocess(self):
-        # TODO: at least get target variables from data, but clean if necessary & reduce dimension size
+        # TODO: at least get target variables from data, but clean if necessary & reduce dimension size 
         # Calculate the minimum number of votes required to be in the chart (90th percentile)
         min_votes = self.datafile['vote_count'].quantile(0.90)
         # Calculate mean average vote across entire dataset ala IMDB
