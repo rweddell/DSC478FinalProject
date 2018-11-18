@@ -74,4 +74,3 @@ print()
 print('Thanks for using')
 print()
 display_title(title)
-

@@ -57,30 +57,21 @@ class MovieData:
         # Replace NaN with an empty string
         data['overview'] = data['overview'].fillna('')
         data['tagline'] = data['tagline'].fillna('')
-        # see about genre...
         data['genres'] = data['genres'].fillna('[]').apply(literal_eval).apply(
             lambda x: [i['name'] for i in x] if isinstance(x, list) else [])
         # Split up sentences to lists of string values
         table = dict.fromkeys(i for i in range(sys.maxunicode) if unicodedata.category(chr(i)).startswith('P'))
-
-        # TODO: i think the next 4 lines can be reduced to 2
-        data['tagline'] = data['tagline'].apply(lambda x: x.translate(table))
-        data['overview'] = data['overview'].apply(lambda x: x.translate(table))
-        data['tagline'] = data['tagline'].apply(lambda x: x.split())
-        data['overview'] = data['overview'].apply(lambda x: x.split())
-
+        data['tagline'] = data['tagline'].apply(lambda x: x.translate(table).split())
+        data['overview'] = data['overview'].apply(lambda x: x.translate(table).split())
         # Stem words
         snowball = SnowballStemmer('english')
         data['keywords'] = data['keywords'].apply(lambda x: [snowball.stem(i) for i in x])
         data['tagline'] = data['tagline'].apply(lambda x: [snowball.stem(i) for i in x])
         data['overview'] = data['overview'].apply(lambda x: [snowball.stem(i) for i in x])
-        data['genres'] = data['genres'].apply(lambda x: [snowball.stem(i) for i in x])
+        #data['genres'] = data['genres'].apply(lambda x: [snowball.stem(i) for i in x])
         # Convert values to strings for concatenation
         data['keywords'] = data['keywords'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
-        data['genres'] = data['genres'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
-        print(data['tagline'])
-        print(data['overview'])
-        print(data['genres'])
+        #data['genres'] = data['genres'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
         # Create wordsalad for Tfidf evaluation
         data['wordsalad'] = data['overview'] + data['tagline'] + data['keywords'] + data['genres']
         data['wordsalad'] = data['wordsalad'].apply(lambda x: ' '.join(x))
@@ -90,7 +81,6 @@ class MovieData:
         tfidf_matrix = tfidf.fit_transform(data['wordsalad'])
         # Compute the cosine similarity matrix
         cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
-        print(cosine_sim.shape)
         return data, cosine_sim, tfidf_matrix
 
     def stem_words(self):
