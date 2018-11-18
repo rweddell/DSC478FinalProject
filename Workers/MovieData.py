@@ -64,10 +64,10 @@ class MovieData:
         table = dict.fromkeys(i for i in range(sys.maxunicode) if unicodedata.category(chr(i)).startswith('P'))
 
         # TODO: i think the next 4 lines can be reduced to 2
-        data['tagline'] = data['tagline'].apply(lambda x: x.translate(table))
-        data['overview'] = data['overview'].apply(lambda x: x.translate(table))
-        data['tagline'] = data['tagline'].apply(lambda x: x.split())
-        data['overview'] = data['overview'].apply(lambda x: x.split())
+        data['tagline'] = data['tagline'].apply(lambda x: x.translate(table).split())
+        data['overview'] = data['overview'].apply(lambda x: x.translate(table).split())
+        # data['tagline'] = data['tagline'].apply(lambda x: x.split())
+        # data['overview'] = data['overview'].apply(lambda x: x.split())
 
         # Stem words
         snowball = SnowballStemmer('english')

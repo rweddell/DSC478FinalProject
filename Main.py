@@ -15,7 +15,7 @@ quit_words = ['exit', 'close', 'quit', 'no', 'n', 'negative', 'cancel', 'negator
 
 engine = Engine.Engine()
 
-search = [engine.get_content_recommendations, engine.get_rating_recommendations]
+search = [engine.get_content_recommendations]
 
 while chosen not in quit_words:
     cls()
