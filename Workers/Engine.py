@@ -46,7 +46,7 @@ class Engine:
         #print(movie_indices)
         return self.movie_data.data['title'].iloc[kneighbors]
 
-    # NOTE: This shit runs but it sucks at making predictions...
+    # A home brew KNN function using Cosine Similarity
     def get_content_recommendations(self, title):
         # Get the index of the movie that matches the title
         idx = self.movie_data.data.title[self.movie_data.data.title == title].index
@@ -61,12 +61,12 @@ class Engine:
         movies = movies.sort_values('scores', ascending=False).head(10)
         # Return the top 10 most similar movies
         #return self.movie_data.data['title'].iloc[movies['title']]
-        return movies
+        return movies[['title', 'vote_count', 'vote_average', 'scores']]
 
     def get_top_movies(self, n):
         # Sort movies based on weighted score
         top_movies = self.movie_data.data.sort_values('score', ascending=False)
-        return top_movies[['title', 'vote_count', 'vote_average', 'score']].head(n)
+        return top_movies[['title', 'vote_count', 'vote_average', 'scores']].head(n)
 
 
     # returns the first paragraph (as a string) of the wikipedia article most closely associated with the word
