@@ -3,7 +3,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 from zipfile import ZipFile
 from ast import literal_eval
-import string
 from nltk.stem.snowball import SnowballStemmer
 import os
 import sys
@@ -66,10 +65,13 @@ class MovieData:
             lambda x: [i['name'] for i in x] if isinstance(x, list) else [])
         # Split up sentences to lists of string values
         table = dict.fromkeys(i for i in range(sys.maxunicode) if unicodedata.category(chr(i)).startswith('P'))
+
+        # TODO: i think the next 4 lines can be reduced to 2
         data['tagline'] = data['tagline'].apply(lambda x: x.translate(table))
         data['overview'] = data['overview'].apply(lambda x: x.translate(table))
         data['tagline'] = data['tagline'].apply(lambda x: x.split())
         data['overview'] = data['overview'].apply(lambda x: x.split())
+
         # Stem words
         snowball = SnowballStemmer('english')
         data['keywords'] = data['keywords'].apply(lambda x: [snowball.stem(i) for i in x])
@@ -95,6 +97,7 @@ class MovieData:
 
     def stem_words(self):
         snowball = SnowballStemmer('english')
+        # TODO: 'self' should be self.data
         self['keywords'] = self['keywords'].apply(lambda x: [snowball.stem(i) for i in x])
         self['tagline'] = self['tagline'].apply(lambda x: [snowball.stem(i) for i in x])
         self['overview'] = self['overview'].apply(lambda x: [snowball.stem(i) for i in x])

@@ -59,7 +59,7 @@ class Engine:
         # Sort the movies based indices of the similarity scores
         #sim_scores = np.flip(np.argsort(cosine_sim[idx]))
         # Get the indices of the 10 most similar movies
-        #movie_indices = sim_scores[0, 1:26]
+        movie_indices = sim_scores[0, 1:26]
         # Get the movies based on indices
         movies = self.movie_data.data.iloc[movie_indices][['title', 'vote_count', 'vote_average', 'scores']]
         movies = movies.sort_values('scores', ascending=False).head(10)
