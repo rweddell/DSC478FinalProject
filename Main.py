@@ -35,10 +35,11 @@ while chosen not in quit_words:
             cls()
             for i in range(len(genres)):
                 print(i, genres[i])
-            chosen = input("Enter the index of the genre that you want:\n")
+            ind = input("Enter the index of the genre that you want:\n")
+            chosen = genres[ind]
         elif search_type is 2:
             chosen = input("Enter a movie title or type 'exit' to quit:  \n")
-            num_sim = int(input("How many recommended movies would you like?:\n"))
+        num_sim = int(input("How many recommended movies would you like?:\n"))
         cls()
         recs = []
         if chosen not in quit_words:

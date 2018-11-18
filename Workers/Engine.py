@@ -16,6 +16,14 @@ class Engine:
     def __init__(self):
         self.movie_data = MovieData.MovieData()
 
+    def handle_input(self, search_type, movieorgenre=None, num=10):
+        if search_type == 0:
+            return self.get_top_movies(num)
+        elif search_type == 1:
+            return self.get_top_genre(movieorgenre, num)
+        elif search_type == 2:
+            return self.get_content_recommendations(movieorgenre, num)
+
     # A home brew KNN function using Cosine Similarity
     def get_content_recommendations(self, title, n):
         # Get the index of the movie that matches the title
@@ -44,3 +52,31 @@ class Engine:
         gen_data = self.movie_data.data.drop('genres', axis=1).join(g)
         top_genre = gen_data[gen_data['genre'] == genre].sort_values('scores')
         return top_genre[['title', 'vote_count', 'vote_average', 'scores']].head(n)
+
+    def find_summary(self, ename):
+        # returns the first paragraph (as a string) of the wikipedia article most closely associated with the word
+        ambiguities = []
+        brief = ""
+        try:
+            brief = wikipedia.summary(ename + ' the movie')
+        except (wikipedia.exceptions.DisambiguationError, UserWarning) as exc:
+            print("Ambiguity error")
+            ambiguities = exc.options
+            brief = ""
+        except wikipedia.exceptions.PageError:
+            print("No page found for : {}".format(ename))
+        while brief == "" and ambiguities != []:
+            try:
+                while ambiguities != []:
+                    option = ambiguities.pop()
+                    clarify = input("Did you mean {}? y/n :  ".format(option)).lower()
+                    if clarify == "y":
+                        brief = wikipedia.summary(option)
+                        break
+                    else:
+                        pass
+            except wikipedia.exceptions.DisambiguationError as cxe:
+                print("Ran out of options. Try another word.")
+        if brief == "":
+            print("Ran out of options. Try another word.")
+        return brief
