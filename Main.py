@@ -25,20 +25,22 @@ search = [engine.get_content_recommendations, engine.get_top_genre, engine.get_t
 while chosen not in quit_words:
     cls()
     display_title(title)
-    search_type = int(input('Enter an option number :\n'
-                            '0 Get top-rated movies\n'
-                            '1 Get top-rated movies for a genre\n'
-                            '2 Get movies similar to a chosen movie\n'))
-    chosen = None
-    if search_type is 1:
-        for i in range(len(genres)):
-            print(i, genres[i])
-        chosen = input("Enter the index of the genre that you want:\n")
-    elif search_type is 2:
-        chosen = input("Enter a movie title or type 'exit' to quit:  \n")
-    num_sim = int(input("How many recommended movies would you like?:\n"))
-    recs = []
     try:
+        search_type = int(input('Enter an option number :\n'
+                                '0 Get top-rated movies\n'
+                                '1 Get top-rated movies for a genre\n'
+                                '2 Get movies similar to a chosen movie\n'))
+        chosen = None
+        if search_type is 1:
+            cls()
+            for i in range(len(genres)):
+                print(i, genres[i])
+            chosen = input("Enter the index of the genre that you want:\n")
+        elif search_type is 2:
+            chosen = input("Enter a movie title or type 'exit' to quit:  \n")
+            num_sim = int(input("How many recommended movies would you like?:\n"))
+        cls()
+        recs = []
         if chosen not in quit_words:
             recs = engine.handle_input(search_type, chosen, num_sim)
             print()
@@ -57,12 +59,13 @@ while chosen not in quit_words:
                 else:
                     print(engine.find_summary(more))
                 print()
+                cls()
     except (KeyError, IndexError) as ke:
         print(ke)
         print('Sorry, we could not find that movie\n')
     except ValueError as val:
         print(val)
-        print('Something went wrong\n')
+        print('Received incorrect input. Please try again.\n')
     if chosen not in quit_words:
         chosen = input('Do you want to continue? \n')
 cls()
