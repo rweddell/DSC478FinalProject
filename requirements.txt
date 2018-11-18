@@ -1,4 +1,10 @@
-pandas==0.23.4
+
+colorama
+nltk
 numpy==1.15.2
+pandas==0.23.4
+pillow
+pyfiglet
 sklearn
+termcolor
 wikipedia

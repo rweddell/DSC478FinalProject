@@ -1,14 +1,12 @@
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import linear_kernel
-from zipfile import ZipFile
 from ast import literal_eval
-import string
 from nltk.stem.snowball import SnowballStemmer
 import os
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
 import sys
 import unicodedata
+from zipfile import ZipFile
 
 
 class MovieData:
@@ -36,9 +34,7 @@ class MovieData:
         data = self.datafile.loc[self.datafile.vote_count >= min_votes].copy()
         # Append weighted scores to new DataFrame
         data['scores'] = data.apply(lambda x: (x['vote_count'] / (x['vote_count'] + min_votes) *
-                                               x['vote_average']) + (
-                                                          min_votes / (min_votes + x['vote_count']) * mean_score),
-                                    axis=1)
+                                               x['vote_average']) + (min_votes / (min_votes + x['vote_count']) * mean_score), axis=1)
         # Drop duplicates
         data.drop_duplicates(inplace=True)
         # Reassign indices of data
@@ -67,10 +63,13 @@ class MovieData:
             lambda x: [i['name'] for i in x] if isinstance(x, list) else [])
         # Split up sentences to lists of string values
         table = dict.fromkeys(i for i in range(sys.maxunicode) if unicodedata.category(chr(i)).startswith('P'))
+
+        # TODO: i think the next 4 lines can be reduced to 2
         data['tagline'] = data['tagline'].apply(lambda x: x.translate(table))
         data['overview'] = data['overview'].apply(lambda x: x.translate(table))
         data['tagline'] = data['tagline'].apply(lambda x: x.split())
         data['overview'] = data['overview'].apply(lambda x: x.split())
+
         # Stem words
         snowball = SnowballStemmer('english')
         data['keywords'] = data['keywords'].apply(lambda x: [snowball.stem(i) for i in x])
@@ -97,6 +96,7 @@ class MovieData:
 
     def stem_words(self):
         snowball = SnowballStemmer('english')
+        # TODO: 'self' should be self.data
         self['keywords'] = self['keywords'].apply(lambda x: [snowball.stem(i) for i in x])
         self['tagline'] = self['tagline'].apply(lambda x: [snowball.stem(i) for i in x])
         self['overview'] = self['overview'].apply(lambda x: [snowball.stem(i) for i in x])
@@ -106,18 +106,3 @@ class MovieData:
         zip_ref = ZipFile(os.path.join(self.data_path, 'movies_metadata.zip'), 'r')
         zip_ref.extractall(self.data_path)
         zip_ref.close()
-
-
-def test_movie():
-    md = MovieData()
-    print(md.datafile)
-    genres = []
-    '''
-    for thing in md.datafile.Genre:
-        if thing not in genres:
-            genres.append(thing)
-    for thing in sorted(genres):
-        print(thing)
-    '''
-
-# test_movie()
