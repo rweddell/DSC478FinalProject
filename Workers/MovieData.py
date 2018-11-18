@@ -19,7 +19,6 @@ class MovieData:
             ['userId', 'movieId', 'rating']]
         # Create reduced dimension data set & cosine similarity matrix
         self.data, self.cosine_sim, self.tfidf_matrix = self.preprocess()
-        
 
     def __getattr__(self, item):
         return "Attribute does not exist."

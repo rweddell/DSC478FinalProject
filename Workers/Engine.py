@@ -48,6 +48,7 @@ class Engine:
     def get_content_recommendations(self, title):
         # Get the index of the movie that matches the title
         idx = self.movie_data.data.title[self.movie_data.data.title == title].index
+        print(idx.shape)
         # Get cosine similarity matrix from MovieData
         cosine_sim = self.movie_data.cosine_sim
         # Get the pairwise similarity scores of all movies with that movie
@@ -81,13 +82,19 @@ class Engine:
         movies = movies.sort_values('scores', ascending=False).head(10)
         # Return the top 10 most similar movies
         #return self.movie_data.data['title'].iloc[movies['title']]
-        return movies[['title', 'vote_count', 'vote_average', 'scores']]
+        return movies[['title']]
 
     def get_top_movies(self, n):
         # Sort movies based on weighted score
-        top_movies = self.movie_data.data.sort_values('score', ascending=False)
+        top_movies = self.movie_data.data.sort_values('scores', ascending=False)
         return top_movies[['title', 'vote_count', 'vote_average', 'scores']].head(n)
 
+    def get_top_genre(self, genre, n):
+        g = self.movie_data.data.apply(lambda x: pd.Series(x['genres']), axis=1).stack().reset_index(level=1, drop=True)
+        g.name = 'genre'
+        gen_data = self.movie_data.data.drop('genres', axis=1).join(g)
+        top_genre = gen_data[gen_data['genre'] == genre].sort_values('scores')
+        return top_genre[['title', 'vote_count', 'vote_average', 'scores']].head(n)
 
     def find_summary(self, ename):
         # returns the first paragraph (as a string) of the wikipedia article most closely associated with the word
