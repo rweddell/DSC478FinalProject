@@ -10,7 +10,7 @@ from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 
 def pil_display(title):
-    myfont = ImageFont.truetype("verdanab.ttf", 12)
+    myfont = ImageFont.truetype("verdanab.ttf", 8)
     size = myfont.getsize(title)
     img = Image.new('1', size, "black")
     draw = ImageDraw.Draw(img)
@@ -26,7 +26,7 @@ def display_title(title):
         title,
         font='starwars'),
         'green',
-        attrs=['bold'])
+        attrs=['bold', 'blink'])
 
 
 def cls():

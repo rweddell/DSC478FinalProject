@@ -21,7 +21,7 @@ search = [engine.get_content_recommendations, engine.get_rating_recommendations]
 
 while chosen not in quit_words:
     cls()
-    pil_display('WORLDS GREATEST MOVIE RECOMMENDER')
+    display_title('WORLDS GREATEST MOVIE RECOMMENDER')
     #print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER\n")
     # TODO: here, we can add a case statement where the use can decide what search to perform: TFIDF vs Rating
     kid = input("Are you looking for a kid's movie? : \n")
@@ -64,5 +64,6 @@ while chosen not in quit_words:
         chosen = input('Do you want to continue? \n')
 cls()
 print()
-print('Thanks for using the GREATEST MOVIE RECOMMENDER EVER')
+#print('Thanks for using the GREATEST MOVIE RECOMMENDER EVER')
+display_title('Thanks for using the GREATEST MOVIE RECOMMENDER EVER')
 
