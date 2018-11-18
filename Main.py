@@ -1,8 +1,7 @@
 
 import warnings
 from Workers.Display import *
-with warnings.catch_warnings(record=True) as warn:
-    from Workers import Engine
+from Workers import Engine
 
 
 # The main script for a machine-learning movie recommender
@@ -15,12 +14,16 @@ quit_words = ['exit', 'close', 'quit', 'no', 'n', 'negative', 'cancel', 'negator
 
 engine = Engine.Engine()
 
-search = [engine.get_content_recommendations, engine.get_rating_recommendations]
+search = [engine.get_content_recommendations, engine.get_top_genre, engine.get_top_movies]
 
 while chosen not in quit_words:
     cls()
     display_title('rec-a-film')
     # TODO: do something separate for kid's movie recommendations
+    search_type = input('Enter the option number :\n'
+                        '0 Get top-rated movies\n'
+                        '1 Get top-rated movies for a genre\n'
+                        '2 Get similar movies\n')
     chosen = input("Enter a movie title or type 'exit' to quit:  \n")
     num_sim = int(input("How many similar movies would you like to see?:\n"))
     recs = []
