@@ -1,8 +1,8 @@
 
 import warnings
 from Workers.Display import *
+from Workers.InputHandler import *
 from Workers import Engine
-
 
 # The main script for a machine-learning movie recommender
 
