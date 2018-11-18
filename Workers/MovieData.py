@@ -68,11 +68,12 @@ class MovieData:
         data['keywords'] = data['keywords'].apply(lambda x: [snowball.stem(i) for i in x])
         data['tagline'] = data['tagline'].apply(lambda x: [snowball.stem(i) for i in x])
         data['overview'] = data['overview'].apply(lambda x: [snowball.stem(i) for i in x])
-        data['genres'] = data['genres'].apply(lambda x: [snowball.stem(i) for i in x])
+        #data['genres'] = data['genres'].apply(lambda x: [snowball.stem(i) for i in x])
         # Convert values to strings for concatenation
         data['keywords'] = data['keywords'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
-        data['genres'] = data['genres'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
+        #data['genres'] = data['genres'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
         # Create wordsalad for Tfidf evaluation
+        print(data['genres'])
         data['wordsalad'] = data['overview'] + data['tagline'] + data['keywords'] + data['genres']
         data['wordsalad'] = data['wordsalad'].apply(lambda x: ' '.join(x))
         # Define a TF-IDF Vectorizer Object. Remove all english stop words such as 'the', 'a'
