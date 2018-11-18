@@ -16,6 +16,14 @@ class Engine:
     def __init__(self):
         self.movie_data = MovieData.MovieData()
 
+    def handle_input(self, search_type, movieorgenre=None, num=10):
+        if search_type == 0:
+            return self.get_top_movies(num)
+        elif search_type == 1:
+            return self.get_top_genre(movieorgenre, num)
+        elif search_type == 2:
+            return self.get_content_recommendations(movieorgenre, num)
+
     # A home brew KNN function using Cosine Similarity
     def get_content_recommendations(self, title, n):
         # Get the index of the movie that matches the title
