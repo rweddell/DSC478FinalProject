@@ -95,3 +95,6 @@ class MovieData:
         zip_ref = ZipFile(os.path.join(self.data_path, 'movies_metadata.zip'), 'r')
         zip_ref.extractall(self.data_path)
         zip_ref.close()
+
+    def data_delete(self):
+        pass
