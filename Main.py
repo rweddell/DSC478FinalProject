@@ -22,10 +22,11 @@ while chosen not in quit_words:
     display_title('rec-a-film')
     # TODO: do something separate for kid's movie recommendations
     chosen = input("Enter a movie title or type 'exit' to quit:  \n")
+    num_sim = input("How many similar movies would you like to see?:\n")
     recs = []
     try:
         if chosen not in quit_words:
-            recs = engine.get_content_recommendations(chosen)
+            recs = engine.get_content_recommendations(chosen, num_sim)
             print()
             for i in range(len(recs.values)):
                 print(i, recs.values[i])
