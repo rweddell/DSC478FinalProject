@@ -5,7 +5,7 @@ Receives user data from GUI
 Retrieves DataStorage from csv file
 """
 
-from Workers import MovieData, UserHandler
+from Workers import MovieData
 import wikipedia
 import numpy as np
 import warnings
@@ -17,12 +17,6 @@ class Engine:
 
     def __init__(self):
         self.movie_data = MovieData.MovieData()
-
-    def collect(self, preferences, user):
-        # TODO: we need to get rid of this function
-        # collects user data from Window class
-        #profile = self.user_handler.get_profile(user, preferences)
-        pass
 
     def apply_knn(self, title):
         # should return a predicted class that can be used to recall
