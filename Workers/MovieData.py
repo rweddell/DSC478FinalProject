@@ -21,8 +21,7 @@ class MovieData:
             ['userId', 'movieId', 'rating']]
         # Create reduced dimension data set & cosine similarity matrix
         self.data, self.cosine_sim, self.tfidf_matrix = self.preprocess()
-        # Construct a reverse map of indices and movie titles
-        self.indices = pd.Series(self.data.index, index=self.data['title'])
+        
 
     def __getattr__(self, item):
         return "Attribute does not exist."
