@@ -22,7 +22,7 @@ while chosen not in quit_words:
     display_title('rec-a-film')
     # TODO: do something separate for kid's movie recommendations
     chosen = input("Enter a movie title or type 'exit' to quit:  \n")
-    num_sim = input("How many similar movies would you like to see?:\n")
+    num_sim = int(input("How many similar movies would you like to see?:\n"))
     recs = []
     try:
         if chosen not in quit_words:
