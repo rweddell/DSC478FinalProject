@@ -1,13 +1,12 @@
+from ast import literal_eval
+from nltk.stem.snowball import SnowballStemmer
+import os
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
-from zipfile import ZipFile
-from ast import literal_eval
-import string
-from nltk.stem.snowball import SnowballStemmer
-import os
 import sys
 import unicodedata
+from zipfile import ZipFile
 
 
 class MovieData:
@@ -36,17 +35,16 @@ class MovieData:
         data = self.datafile.loc[self.datafile.vote_count >= min_votes].copy()
         # Append weighted scores to new DataFrame
         data['scores'] = data.apply(lambda x: (x['vote_count'] / (x['vote_count'] + min_votes) *
-                                               x['vote_average']) + (
-                                                          min_votes / (min_votes + x['vote_count']) * mean_score),
-                                    axis=1)
+                                               x['vote_average']) + (min_votes / (min_votes + x['vote_count']) * mean_score), axis=1)
         # Drop duplicates
         data.drop_duplicates(inplace=True)
         # Reassign indices of data
         data.reset_index(drop=True, inplace=True)
-        keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
         # Convert IDs to int. Required for merging
-        keywords['id'] = keywords['id'].astype('int')
         data['id'] = data['id'].astype('int')
+        # Get keywords then merge them with movie metadata
+        keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
+        keywords['id'] = keywords['id'].astype('int')
         # Merge keywords into dataframe
         data = data.merge(keywords, on='id')
         data['keywords'] = data['keywords'].apply(literal_eval)
@@ -64,15 +62,6 @@ class MovieData:
         # see about genre...
         data['genres'] = data['genres'].fillna('[]').apply(literal_eval).apply(
             lambda x: [i['name'] for i in x] if isinstance(x, list) else [])
-<<<<<<< HEAD
-        # Stem words
-        stemmer = SnowballStemmer('english')
-        data['keywords'] = data['keywords'].apply(lambda x: [stemmer.stem(i) for i in x])
-        data['tagline'] = data['tagline'].apply(lambda x: [stemmer.stem(i) for i in x])
-        data['overview'] = data['overview'].apply(lambda x: [stemmer.stem(i) for i in x])
-        data['genres'] = data['genres'].apply(lambda x: [stemmer.stem(i) for i in x])
-||||||| merged common ancestors
-=======
         # Split up sentences to lists of string values
         table = dict.fromkeys(i for i in range(sys.maxunicode) if unicodedata.category(chr(i)).startswith('P'))
         data['tagline'] = data['tagline'].apply(lambda x: x.translate(table))
@@ -85,25 +74,13 @@ class MovieData:
         data['tagline'] = data['tagline'].apply(lambda x: [snowball.stem(i) for i in x])
         data['overview'] = data['overview'].apply(lambda x: [snowball.stem(i) for i in x])
         data['genres'] = data['genres'].apply(lambda x: [snowball.stem(i) for i in x])
->>>>>>> 10f0b762e0f3c9af73d60ca29d3d696587b002c4
         # Convert values to strings for concatenation
         data['keywords'] = data['keywords'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
-<<<<<<< HEAD
-        data['tagline'] = data['tagline'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
-        data['overview'] = data['overview'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
-
-        # Create wordsalad series for submission to TfidfVectorizer
-||||||| merged common ancestors
-        data['tagline'] = data['tagline'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
-        data['overview'] = data['overview'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
-        # Stem
-=======
         data['genres'] = data['genres'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
         print(data['tagline'])
         print(data['overview'])
         print(data['genres'])
         # Create wordsalad for Tfidf evaluation
->>>>>>> 10f0b762e0f3c9af73d60ca29d3d696587b002c4
         data['wordsalad'] = data['overview'] + data['tagline'] + data['keywords'] + data['genres']
         data['wordsalad'] = data['wordsalad'].apply(lambda x: ' '.join(x))
         # Define a TF-IDF Vectorizer Object. Remove all english stop words such as 'the', 'a'
@@ -112,6 +89,7 @@ class MovieData:
         tfidf_matrix = tfidf.fit_transform(data['wordsalad'])
         # Compute the cosine similarity matrix
         cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+        print(cosine_sim.shape)
         return data, cosine_sim, tfidf_matrix
 
     def stem_words(self):
