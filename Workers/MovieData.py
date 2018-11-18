@@ -78,7 +78,7 @@ class MovieData:
         data['wordsalad'] = data['wordsalad'].fillna('')
         data['wordsalad'] = data['wordsalad'].apply(lambda x: ' '.join(x))
         # Define a TF-IDF Vectorizer Object. Remove all english stop words such as 'the', 'a'
-        tfidf = TfidfVectorizer(stop_words='english')
+        tfidf = TfidfVectorizer(stop_words='english') 
         # Construct the required TF-IDF matrix by fitting and transforming the data
         tfidf_matrix = tfidf.fit_transform(data['wordsalad'])
         # Compute the cosine similarity matrix
