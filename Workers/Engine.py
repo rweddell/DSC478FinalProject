@@ -61,7 +61,7 @@ class Engine:
         # Return the top 10 most similar movies
         return self.movie_data.data['title'].iloc[sim_scores]
 
-    def get_rating_recommendations(self, title):
+    def get_rating_recommendations(self, title, n):
         # Get the index of the movie that matches the title
         idx = self.movie_data.data.title[self.movie_data.data.title == title].index
         # Get cosine similarity matrix from MovieData
@@ -79,7 +79,7 @@ class Engine:
         movie_indices = sim_scores[0, 1:26]
         # Get the movies based on indices
         movies = self.movie_data.data.iloc[movie_indices][['title', 'vote_count', 'vote_average', 'scores']]
-        movies = movies.sort_values('scores', ascending=False).head(10)
+        movies = movies.sort_values('scores', ascending=False).head(n)
         # Return the top 10 most similar movies
         #return self.movie_data.data['title'].iloc[movies['title']]
         return movies[['title']]
