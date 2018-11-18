@@ -21,7 +21,6 @@ class MovieData:
             ['userId', 'movieId', 'rating']]
         # Create reduced dimension data set & cosine similarity matrix
         self.data, self.cosine_sim, self.tfidf_matrix = self.preprocess()
-        
 
     def __getattr__(self, item):
         return "Attribute does not exist."
@@ -36,9 +35,7 @@ class MovieData:
         data = self.datafile.loc[self.datafile.vote_count >= min_votes].copy()
         # Append weighted scores to new DataFrame
         data['scores'] = data.apply(lambda x: (x['vote_count'] / (x['vote_count'] + min_votes) *
-                                               x['vote_average']) + (
-                                                          min_votes / (min_votes + x['vote_count']) * mean_score),
-                                    axis=1)
+                                               x['vote_average']) + (min_votes / (min_votes + x['vote_count']) * mean_score), axis=1)
         # Drop duplicates
         data.drop_duplicates(inplace=True)
         # Reassign indices of data
