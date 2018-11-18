@@ -19,15 +19,14 @@ class Engine:
         self.movie_data = MovieData.MovieData()
 
     def collect(self, preferences, user):
+        # TODO: we need to get rid of this function
         # collects user data from Window class
-        profile = self.user_handler.get_profile(user, preferences)
+        #profile = self.user_handler.get_profile(user, preferences)
+        pass
 
-    # bet i can turn this into an indie/blockbuster detector
     def apply_knn(self, title):
-        # where the magic happens
         # should return a predicted class that can be used to recall
         # recommended movies from the data set
-        # MAY need to transform to np.array
         idx = self.movie_data.data.title[self.movie_data.data.title == title].index
         idxa = self.movie_data.tfidf_matrix[idx]
         # print(idxa.shape)
@@ -38,10 +37,6 @@ class Engine:
         kneighbors = neigh.kneighbors(idxa, return_distance=False)
         print(kneighbors)
         kneighbors = np.squeeze(kneighbors)
-        # print(kneighbors)
-        # movie_indices = [i[0] for i in kneighbors]
-        # print("sup")
-        # print(movie_indices)
         return self.movie_data.data['title'].iloc[kneighbors]
 
     # A home brew KNN function using Cosine Similarity
@@ -69,9 +64,9 @@ class Engine:
         #sim_scores = list(enumerate(cosine_sim[idx]))
         # Sort the movies based on the similarity scores
         #sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-        sim_scores = np.flip(np.argsort(cosine_sim[idx]))
+        #sim_scores = np.flip(np.argsort(cosine_sim[idx]))
         # Get the scores of the 10 most similar movies
-        sim_scores = sim_scores[0, 1:11]
+        #sim_scores = sim_scores[0, 1:11]
         # Sort the movies based indices of the similarity scores
         sim_scores = np.flip(np.argsort(cosine_sim[idx]))
         # Get the indices of the 10 most similar movies

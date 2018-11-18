@@ -7,9 +7,7 @@ with warnings.catch_warnings(record=True) as warn:
 
 # The main script for a machine-learning movie recommender
 
-
-
-print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER")
+#print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER")
 
 chosen = ''
 
@@ -21,23 +19,13 @@ search = [engine.get_content_recommendations, engine.get_rating_recommendations]
 
 while chosen not in quit_words:
     cls()
-    display_title('WORLDS GREATEST MOVIE RECOMMENDER')
-    #print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER\n")
-    # TODO: here, we can add a case statement where the use can decide what search to perform: TFIDF vs Rating
-    kid = input("Are you looking for a kid's movie? : \n")
+    display_title('rec-a-film')
+    # TODO: do something separate for kid's movie recommendations
     chosen = input("Enter a movie title or type 'exit' to quit:  \n")
-    search_type = 2
-    while search_type not in [0,1]:
-        search_type = int(input('Are you looking for movies related by Content or similar ratings?\n'
-                                '[0] Content\n'
-                                '[1] Ratings\n'))
-        if search_type not in [0,1]:
-            print("Please provide an answer of 0 or 1")
     recs = []
     try:
         if chosen not in quit_words:
-            # TODO: this is where the chosen search would be performed
-            recs = search[search_type](chosen)
+            recs = engine.get_content_recommendations(chosen)
             print()
             for i in range(len(recs.values)):
                 print(i, recs.values[i])
@@ -50,7 +38,7 @@ while chosen not in quit_words:
                 elif more.isnumeric():
                     more = recs.values[int(more)]
                 if more not in recs.values:
-                    print("That wasn't in the list of choices.")
+                    print("Please enter a value from the list of choices.")
                 else:
                     print(engine.find_summary(more))
                 print()
@@ -65,5 +53,5 @@ while chosen not in quit_words:
 cls()
 print()
 #print('Thanks for using the GREATEST MOVIE RECOMMENDER EVER')
-display_title('Thanks for using the GREATEST MOVIE RECOMMENDER EVER')
+display_title('Thanks for using rec-a-film')
 

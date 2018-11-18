@@ -37,4 +37,4 @@ def cls():
 
 #pil_display('TESTING 1, 2, 3')
 
-display_title('TESTING 1, 2, 3')
+#display_title('TESTING 1, 2, 3')
