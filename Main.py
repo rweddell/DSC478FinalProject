@@ -1,16 +1,12 @@
 
 import warnings
-import os
+from Workers.Display import *
 with warnings.catch_warnings(record=True) as warn:
     from Workers import Engine
 
 
 # The main script for a machine-learning movie recommender
 
-
-def cls():
-    # clears the console when called from shell/console
-    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER")
@@ -25,7 +21,8 @@ search = [engine.get_content_recommendations, engine.get_rating_recommendations]
 
 while chosen not in quit_words:
     cls()
-    print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER\n")
+    pil_display('WORLDS GREATEST MOVIE RECOMMENDER')
+    #print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER\n")
     # TODO: here, we can add a case statement where the use can decide what search to perform: TFIDF vs Rating
     kid = input("Are you looking for a kid's movie? : \n")
     chosen = input("Enter a movie title or type 'exit' to quit:  \n")
