@@ -18,59 +18,53 @@ class Engine:
     def __init__(self):
         self.movie_data = MovieData.MovieData()
 
+    def collect(self, preferences, user):
+        # collects user data from Window class
+        profile = self.user_handler.get_profile(user, preferences)
+
+    # bet i can turn this into an indie/blockbuster detector
     def apply_knn(self, title):
+        # where the magic happens
+        # should return a predicted class that can be used to recall
+        # recommended movies from the data set
+        # MAY need to transform to np.array
         idx = self.movie_data.data.title[self.movie_data.data.title == title].index
         idxa = self.movie_data.tfidf_matrix[idx]
+        # print(idxa.shape)
+        # print(idxa)
         neigh = nn(n_neighbors=10)
         neigh.fit(self.movie_data.tfidf_matrix)
         # Get index of k nearest neighbors
         kneighbors = neigh.kneighbors(idxa, return_distance=False)
         print(kneighbors)
         kneighbors = np.squeeze(kneighbors)
+        # print(kneighbors)
+        # movie_indices = [i[0] for i in kneighbors]
+        # print("sup")
+        # print(movie_indices)
         return self.movie_data.data['title'].iloc[kneighbors]
 
+    # A home brew KNN function using Cosine Similarity
     def get_content_recommendations(self, title):
         # Get the index of the movie that matches the title
         idx = self.movie_data.data.title[self.movie_data.data.title == title].index
         # Get cosine similarity matrix from MovieData
         cosine_sim = self.movie_data.cosine_sim
-        # Get the pairwise similarity scores of all movies with that movie
-        #sim_scores = list(enumerate(cosine_sim[idx]))
-        # Sort the movies based on the similarity scores
-        #sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-        sim_scores = np.flip(np.argsort(cosine_sim[idx]))
-        # Get the scores of the 10 most similar movies
-        sim_scores = sim_scores[0, 1:11]
-        # Return the top 10 most similar movies
-        return self.movie_data.data['title'].iloc[sim_scores]
-
-    def get_rating_recommendations(self, title):
-        # Get the index of the movie that matches the title
-        idx = self.movie_data.data.title[self.movie_data.data.title == title].index
-        # Get cosine similarity matrix from MovieData
-        cosine_sim = self.movie_data.cosine_sim
-        # Get the pairwise similarity scores of all movies with that movie
-        #sim_scores = list(enumerate(cosine_sim[idx]))
-        # Sort the movies based on the similarity scores
-        #sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-        sim_scores = np.flip(np.argsort(cosine_sim[idx]))
-        # Get the scores of the 10 most similar movies
-        sim_scores = sim_scores[0, 1:11]
         # Sort the movies based indices of the similarity scores
-        #sim_scores = np.flip(np.argsort(cosine_sim[idx]))
+        sim_scores = np.flip(np.argsort(cosine_sim[idx]))
         # Get the indices of the 10 most similar movies
         movie_indices = sim_scores[0, 1:26]
         # Get the movies based on indices
         movies = self.movie_data.data.iloc[movie_indices][['title', 'vote_count', 'vote_average', 'scores']]
         movies = movies.sort_values('scores', ascending=False).head(10)
         # Return the top 10 most similar movies
-        #return self.movie_data.data['title'].iloc[movies['title']]
-        return movies
+        # return self.movie_data.data['title'].iloc[movies['title']]
+        return movies[['title', 'vote_count', 'vote_average', 'scores']]
 
     def get_top_movies(self, n):
         # Sort movies based on weighted score
         top_movies = self.movie_data.data.sort_values('score', ascending=False)
-        return top_movies[['title', 'vote_count', 'vote_average', 'score']].head(n)
+        return top_movies[['title', 'vote_count', 'vote_average', 'scores']].head(n)
 
     def find_summary(self, ename):
         # returns the first paragraph (as a string) of the wikipedia article most closely associated with the word

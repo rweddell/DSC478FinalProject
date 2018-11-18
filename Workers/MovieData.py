@@ -1,12 +1,12 @@
-import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import linear_kernel
-from zipfile import ZipFile
 from ast import literal_eval
 from nltk.stem.snowball import SnowballStemmer
 import os
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
 import sys
 import unicodedata
+from zipfile import ZipFile
 
 
 class MovieData:
@@ -35,17 +35,16 @@ class MovieData:
         data = self.datafile.loc[self.datafile.vote_count >= min_votes].copy()
         # Append weighted scores to new DataFrame
         data['scores'] = data.apply(lambda x: (x['vote_count'] / (x['vote_count'] + min_votes) *
-                                               x['vote_average']) + (
-                                                          min_votes / (min_votes + x['vote_count']) * mean_score),
-                                    axis=1)
+                                               x['vote_average']) + (min_votes / (min_votes + x['vote_count']) * mean_score), axis=1)
         # Drop duplicates
         data.drop_duplicates(inplace=True)
         # Reassign indices of data
         data.reset_index(drop=True, inplace=True)
-        keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
         # Convert IDs to int. Required for merging
-        keywords['id'] = keywords['id'].astype('int')
         data['id'] = data['id'].astype('int')
+        # Get keywords then merge them with movie metadata
+        keywords = pd.read_csv(os.path.join(self.data_path, 'keywords.csv'))
+        keywords['id'] = keywords['id'].astype('int')
         # Merge keywords into dataframe
         data = data.merge(keywords, on='id')
         data['keywords'] = data['keywords'].apply(literal_eval)
@@ -93,6 +92,7 @@ class MovieData:
         tfidf_matrix = tfidf.fit_transform(data['wordsalad'])
         # Compute the cosine similarity matrix
         cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+        print(cosine_sim.shape)
         return data, cosine_sim, tfidf_matrix
 
     def stem_words(self):
