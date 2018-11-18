@@ -15,7 +15,7 @@ Engine.py is responsible for calculating similarities
 MovieData.py handles the data
 
 
-Create a docker container using this command:
+Create a docker container using this command (build time is approx. 90 seconds):
 
     docker build -t movierecommender
 
