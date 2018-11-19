@@ -10,25 +10,25 @@ class InputHandler:
         self.engine = Engine.Engine()
         self.quit_words = ['exit', 'close', 'quit', 'no', 'n',
                            'negative', 'cancel', 'negatory',
-                           'nope', 'escape']
+                           'nope', 'escape', 'cls', '^C']
+        self.genres = ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime',
+                       'Documentary', 'Drama', 'Family', 'Fantasy', 'History',
+                       'Horror', 'Music', 'Mystery', 'Romance', 'Science Fiction',
+                       'Thriller', 'War', 'Western']
 
     def handle_genre(self):
-        genres = ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime',
-                  'Documentary', 'Drama', 'Family', 'Fantasy', 'History',
-                  'Horror', 'Music', 'Mystery', 'Romance', 'Science Fiction',
-                  'Thriller', 'War', 'Western']
         ind = ''
         while not isinstance(ind, int):
             try:
-                for i in range(len(genres)):
-                    print(i, genres[i])
+                for i in range(len(self.genres)):
+                    print(i, self.genres[i])
                 ind = input("\nEnter the index of the genre that you want or type 'exit':\n")
                 if ind in self.quit_words:
                     return None
                 ind = int(ind)
-                if ind<0 or ind>len(genres):
+                if ind<0 or ind>len(self.genres):
                     ind = ''
-                choice = genres[ind]
+                choice = self.genres[ind]
                 num_sim = num_movies()
             except:
                 print("\nRecieved bad input. Please try again or type 'exit'\n")
