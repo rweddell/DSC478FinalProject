@@ -46,7 +46,7 @@ class InputHandler:
                     return None
                 search_type = int(search_type)
             except:
-                print('\nRecieved bad input. Please try again.\n')
+                print('\nReceived unusable input. Please try again.\n')
         return search_type
 
     def handle_input(self, search_type):
@@ -64,6 +64,7 @@ class InputHandler:
         quit_words = ['exit', 'close', 'quit', 'no', 'n', 'negative', 'cancel', 'negatory', 'nope', 'escape']
         more = ''
         while more not in quit_words:
+            #print(recs.to_string(header=True, justify=all))
             more = input('\nWould you like to know more about one of these titles?\n'
                          'Type the title index or title itself or type "exit":  \n')
             if more in quit_words:
