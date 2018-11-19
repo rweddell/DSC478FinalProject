@@ -32,6 +32,8 @@ class MovieData:
         cosine_sim = self.calculate_cosine_sim()
         gen_data = self.sort_genres()
         data = self.datafile
+        # Format data frames for display
+        pd.set_option('display.precision', 2)
         return data, gen_data, cosine_sim
 
     def minimize_data(self):

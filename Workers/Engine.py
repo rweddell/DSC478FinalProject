@@ -36,18 +36,18 @@ class Engine:
         movie_indices = sim_scores[0, 1:(n + 1)]
         # Get the movies based on indices and sort them according to weighted score
         movies = self.movie_data.data.iloc[movie_indices][['title', 'vote_count', 'vote_average', 'scores']]
-        movies = movies.sort_values('scores', ascending=False)
+        movies = movies.sort_values('scores', ascending=False).reset_index()
         # Return the top 10 most similar movies
         return movies[['title', 'vote_count', 'vote_average', 'scores']]
 
     def get_top_movies(self, n):
         # Sort movies based on weighted score
-        top_movies = self.movie_data.data.sort_values('scores', ascending=False)
+        top_movies = self.movie_data.data.sort_values('scores', ascending=False).reset_index()
         return top_movies[['title', 'vote_count', 'vote_average', 'scores']].head(n)
 
     def get_top_genre(self, genre, n):
         # Sort selected genre movie grouping
-        top_genre = self.movie_data.gen_data[self.movie_data.gen_data['genres'] == genre].sort_values('scores', ascending=False)
+        top_genre = self.movie_data.gen_data[self.movie_data.gen_data['genres'] == genre].sort_values('scores', ascending=False).reset_index()
         return top_genre[['title', 'vote_count', 'vote_average', 'scores']].head(n)
 
     def find_summary(self, ename):
