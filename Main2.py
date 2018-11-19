@@ -24,14 +24,14 @@ while chosen not in quit_words:
         recs = []
         if chosen not in quit_words:
             recs = inputer.handle_input(search_type)
-            print()
+            cls()
             for i in range(len(recs.values)):
                 print(i, recs.values[i])
             inputer.get_more_info(recs)
     except (ValueError, KeyError) as val:
         print(val)
         print('\nReceived unusable input. Please try again.\n')
-    except IndexError as ind:
+    except (IndexError, AttributeError) as ind:
         print(ind)
         print('\nSorry, a bug got in. Please try again.\n')
     if chosen not in quit_words:

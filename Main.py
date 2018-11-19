@@ -60,12 +60,12 @@ while chosen not in quit_words:
                 else:
                     print(engine.find_summary(more))
                 print()
-    except (KeyError, IndexError) as ke:
-        print(ke)
-        print('\nSorry, we could not find that movie\n')
-    except ValueError as val:
+    except (ValueError, KeyError) as val:
         print(val)
-        print('\nReceived incorrect input. Please try again.\n')
+        print('\nReceived unusable input. Please try again.\n')
+    except (IndexError, AttributeError) as ind:
+        print(ind)
+        print('\nSorry, a bug got in. Please try again.\n')
     if chosen not in quit_words:
         chosen = input('\nWould you like to start a new search? \n')
 cls()
