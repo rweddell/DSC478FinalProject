@@ -8,7 +8,6 @@ Retrieves DataStorage from csv file
 from Workers import MovieData
 import wikipedia
 import numpy as np
-import pandas as pd
 
 
 class Engine:
@@ -47,10 +46,8 @@ class Engine:
         return top_movies[['title', 'vote_count', 'vote_average', 'scores']].head(n)
 
     def get_top_genre(self, genre, n):
-        g = self.movie_data.data.apply(lambda x: pd.Series(x['genres']), axis=1).stack().reset_index(level=1, drop=True)
-        g.name = 'genre'
-        gen_data = self.movie_data.data.drop('genres', axis=1).join(g)
-        top_genre = gen_data[gen_data['genre'] == genre].sort_values('scores', ascending=False)
+        # Sort selected genre movie grouping
+        top_genre = self.movie_data.gen_data[self.movie_data.gen_data['genres'] == genre].sort_values('scores', ascending=False)
         return top_genre[['title', 'vote_count', 'vote_average', 'scores']].head(n)
 
     def find_summary(self, ename):
