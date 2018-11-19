@@ -9,6 +9,6 @@ WORKDIR /app
 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-ENV NAME MovieRecommender
+ENV NAME FindaFilm
 
-CMD ["python", "./Main2.py"]
+CMD ["python", "./Main.py"]

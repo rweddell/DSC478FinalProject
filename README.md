@@ -19,11 +19,11 @@ Build time was approx. 90 seconds (though we saw as high as 4 minutes)
 Create a docker container using this command:
 
 
-    docker build -t movierecommender
+    docker build -t findafilm
 
 
 Startup time was approx 20 seconds
 Run the application with:
 
 
-    docker run -ti movierecommender
+    docker run -ti findafilm
