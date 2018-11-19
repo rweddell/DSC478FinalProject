@@ -39,6 +39,9 @@ class InputHandler():
                                         '0 Get top-rated movies\n'
                                         '1 Get top-rated movies for a genre\n'
                                         '2 Get movies similar to a chosen movie\n'))
+                if search_type in self.quit_words:
+                    return None
+                search_type = int(search_type)
             except:
                 print('\nRecieved bad input. Please try again.\n')
         return search_type
