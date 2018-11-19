@@ -11,4 +11,4 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 ENV NAME MovieRecommender
 
-CMD ["python", "./Main.py"]
+CMD ["python", "./Main2.py"]

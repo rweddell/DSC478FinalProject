@@ -6,8 +6,7 @@ from Workers import Engine
 
 # The main script for a machine-learning movie recommender
 
-#print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER")
-title = 'find\n-a-\nfilm'
+title = 'find\n- a -\nfilm'
 
 chosen = ''
 
@@ -24,6 +23,7 @@ search = [engine.get_content_recommendations, engine.get_top_genre, engine.get_t
 
 while chosen not in quit_words:
     cls()
+    print('\nWecome to\n')
     display_title(title)
     try:
         search_type = int(input('Enter an option number :\n'
@@ -35,11 +35,11 @@ while chosen not in quit_words:
             cls()
             for i in range(len(genres)):
                 print(i, genres[i])
-            ind = int(input("Enter the index of the genre that you want:\n"))
+            ind = int(input("\nEnter the index of the genre that you want:\n"))
             chosen = genres[ind]
         elif search_type is 2:
-            chosen = input("Enter a movie title or type 'exit' to quit:  \n")
-        num_sim = int(input("How many recommended movies would you like?:\n"))
+            chosen = input("\nEnter a movie title or type 'exit' to quit:  \n")
+        num_sim = int(input("\nHow many recommended movies would you like?:\n"))
         cls()
         recs = []
         if chosen not in quit_words:
@@ -56,18 +56,18 @@ while chosen not in quit_words:
                 elif more.isnumeric():
                     more = recs.title.values[int(more)]
                 if more not in recs.values:
-                    print("Please enter a value from the list of choices.")
+                    print("\nPlease enter a value from the list of choices.\n")
                 else:
                     print(engine.find_summary(more))
                 print()
     except (KeyError, IndexError) as ke:
         print(ke)
-        print('Sorry, we could not find that movie\n')
+        print('\nSorry, we could not find that movie\n')
     except ValueError as val:
         print(val)
-        print('Received incorrect input. Please try again.\n')
+        print('\nReceived incorrect input. Please try again.\n')
     if chosen not in quit_words:
-        chosen = input('Do you want to continue? \n')
+        chosen = input('\nWould you like to start a new search? \n')
 cls()
 print()
 #print('Thanks for using the GREATEST MOVIE RECOMMENDER EVER')
