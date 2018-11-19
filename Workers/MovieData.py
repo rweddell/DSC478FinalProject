@@ -29,11 +29,7 @@ class MovieData:
         self.stem_words()
         cosine_sim, tfidf_matrix = self.calculate_cosine_sim()
         data = self.datafile
-        print(data.shape)
-        print(data['genres'])
-        print(data['tagline'])
-        print(data['overview'])
-        print(data[data['title'] == 'Batman'])
+
         """""
         # Calculate the minimum number of votes required to be in the chart (90th percentile)
         min_votes = self.datafile['vote_count'].quantile(0.90)
