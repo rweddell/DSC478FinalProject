@@ -10,9 +10,9 @@ class InputHandler():
                            'nope', 'escape']
 
     def handle_genre(self):
-        genres = ['Action', 'Adventure', 'Animation' 'Comedy', 'Crime',
+        genres = ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime',
                   'Documentary', 'Drama', 'Family', 'Fantasy', 'History',
-                  'Horror', 'Music', 'Mystery', 'Romance', 'Science',
+                  'Horror', 'Music', 'Mystery', 'Romance', 'Science Fiction',
                   'Thriller', 'War', 'Western']
         choice = ''
         while not isinstance(choice, int):

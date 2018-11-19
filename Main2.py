@@ -16,6 +16,7 @@ quit_words = ['exit', 'close', 'quit', 'no', 'n', 'negative', 'cancel', 'negator
 
 while chosen not in quit_words:
     cls()
+    print('\nWelcome to\n')
     display_title(title)
     try:
         search_type = inputer.get_search_type()
