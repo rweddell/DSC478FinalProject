@@ -1,5 +1,8 @@
 import wikipedia
-from Workers import Engine
+import warnings
+with warnings.catch_warnings(record=True) as warn:
+    from Workers import Engine
+
 
 class InputHandler():
 
@@ -14,28 +17,34 @@ class InputHandler():
                   'Documentary', 'Drama', 'Family', 'Fantasy', 'History',
                   'Horror', 'Music', 'Mystery', 'Romance', 'Science Fiction',
                   'Thriller', 'War', 'Western']
-        choice = ''
-        while not isinstance(choice, int):
+        ind = ''
+        while not isinstance(ind, int):
             try:
                 for i in range(len(genres)):
                     print(i, genres[i])
-                choice = int(input("\nEnter the index of the genre that you want:\n"))
-                if choice not in range(len(genres)):
-                    choice = ''
-                    continue
+                ind = input("\nEnter the index of the genre that you want or type 'exit':\n")
+                if ind in self.quit_words:
+                    return None
+                ind = int(ind)
+                if ind<0 or ind>len(genres):
+                    ind = ''
+                choice = genres[ind]
                 num_sim = num_movies()
             except:
-                print('\nRecieved bad input. Please try again.\n')
+                print("\nRecieved bad input. Please try again or type 'exit'\n")
         return self.engine.get_top_genre(choice, num_sim)
 
     def get_search_type(self):
         search_type = ''
         while not isinstance(search_type, int):
             try:
-                search_type = int(input('Enter an option number :\n'
+                search_type = int(input('Enter an option number :\n\n'
                                         '0 Get top-rated movies\n'
                                         '1 Get top-rated movies for a genre\n'
                                         '2 Get movies similar to a chosen movie\n'))
+                if search_type in self.quit_words:
+                    return None
+                search_type = int(search_type)
             except:
                 print('\nRecieved bad input. Please try again.\n')
         return search_type
@@ -47,6 +56,8 @@ class InputHandler():
             return self.handle_genre()
         elif search_type == 2:
             chosen = input("\nEnter a movie title or type 'exit' to quit:  \n")
+            if chosen in self.quit_words:
+                return None
             return self.engine.get_content_recommendations(chosen, num_movies())
 
     def get_more_info(self, recs):
@@ -54,7 +65,7 @@ class InputHandler():
         more = ''
         while more not in quit_words:
             more = input('\nWould you like to know more about one of these titles?\n'
-                         'Type the title or title index or type "exit":  \n')
+                         'Type the title index or title itself or type "exit":  \n')
             if more in quit_words:
                 break
             elif more.isnumeric():
