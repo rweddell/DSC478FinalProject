@@ -29,7 +29,7 @@ class MovieData:
         self.get_keywords()
         self.process_text()
         self.stem_words()
-        cosine_sim, tfidf_matrix = self.calculate_cosine_sim()
+        cosine_sim = self.calculate_cosine_sim()
         gen_data = self.sort_genres()
         data = self.datafile
         return data, gen_data, cosine_sim
@@ -100,7 +100,7 @@ class MovieData:
         tfidf_matrix = tfidf.fit_transform(self.datafile['wordsalad'])
         # Compute the cosine similarity matrix
         cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
-        return cosine_sim, tfidf_matrix
+        return cosine_sim
 
     def sort_genres(self):
         g = self.datafile.apply(lambda x: pd.Series(x['genres']), axis=1).stack().reset_index(level=1, drop=True)
