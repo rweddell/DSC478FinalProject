@@ -35,7 +35,7 @@ while chosen not in quit_words:
             cls()
             for i in range(len(genres)):
                 print(i, genres[i])
-            ind = input("Enter the index of the genre that you want:\n")
+            ind = int(input("Enter the index of the genre that you want:\n"))
             chosen = genres[ind]
         elif search_type is 2:
             chosen = input("Enter a movie title or type 'exit' to quit:  \n")
@@ -47,10 +47,10 @@ while chosen not in quit_words:
             print()
             for i in range(len(recs.values)):
                 print(i, recs.values[i])
-            print('\nWould you like to know more about one of these titles?')
             more = ''
             while more not in quit_words:
-                more = input('\nType the title or title index or type "exit":  \n')
+                more = input('\nWould you like to know more about one of these titles?\n'
+                             'Type the title or title index or type "exit":  \n')
                 if more in quit_words:
                     break
                 elif more.isnumeric():
@@ -60,7 +60,6 @@ while chosen not in quit_words:
                 else:
                     print(engine.find_summary(more))
                 print()
-                cls()
     except (KeyError, IndexError) as ke:
         print(ke)
         print('Sorry, we could not find that movie\n')
