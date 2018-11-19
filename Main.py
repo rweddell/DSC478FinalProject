@@ -43,7 +43,7 @@ while chosen not in quit_words:
         if chosen not in quit_words:
             recs = engine.handle_input(search_type, chosen, num_sim)
             print()
-            print(recs.to_string(header=False, justify=all))
+            print(recs.to_string(header=True, justify=all))
             more = ''
             while more not in quit_words:
                 more = input('\nWould you like to know more about one of these titles?\n'
