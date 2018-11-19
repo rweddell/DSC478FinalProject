@@ -8,6 +8,7 @@ Retrieves DataStorage from csv file
 from Workers import MovieData
 import wikipedia
 import numpy as np
+import pandas as pd
 
 class Engine:
 

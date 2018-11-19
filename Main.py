@@ -45,8 +45,7 @@ while chosen not in quit_words:
             recs = engine.handle_input(search_type, chosen, num_sim)
             print()
             for i in range(len(recs.values)):
-                #print(i, recs.values[i])
-                print(f"{recs.values[i]} {recs['vote_count'][i]} {recs['vote_average'][i]} {recs['scores'][i]}")
+                print(i, recs.iloc[[i]].to_string(header=False, justify=all))
             more = ''
             while more not in quit_words:
                 more = input('\nWould you like to know more about one of these titles?\n'
