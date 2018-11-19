@@ -6,8 +6,9 @@ import unicodedata
 from zipfile import ZipFile
 import pandas as pd
 import warnings
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import linear_kernel
+with warnings.catch_warnings(record=True) as warn:
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.metrics.pairwise import linear_kernel
 
 
 class MovieData:
