@@ -19,7 +19,8 @@ class InputHandler():
             try:
                 for i in range(len(genres)):
                     print(i, genres[i])
-                choice = int(input("\nEnter the index of the genre that you want:\n"))
+                ind = int(input("\nEnter the index of the genre that you want:\n"))
+                choice = genres[ind]
                 if choice not in range(len(genres)):
                     choice = ''
                     continue
