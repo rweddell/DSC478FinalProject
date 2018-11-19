@@ -1,5 +1,8 @@
 import wikipedia
-from Workers import Engine
+import warnings
+with warnings.catch_warnings(record=True) as warn:
+    from Workers import Engine
+
 
 class InputHandler():
 
