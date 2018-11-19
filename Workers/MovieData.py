@@ -16,7 +16,7 @@ class MovieData:
         self.data_path = os.path.join(os.getcwd(), 'DataStorage')
         self.data_unzip()
         self.datafile = pd.read_csv(os.path.join(self.data_path, 'movies_metadata.csv'), low_memory=False)
-        # Create reduced dimension data set & cosine similarity matrix
+        # Create reduced dimension data set, genre data set & cosine similarity matrix
         self.data, self.gen_data, self.cosine_sim = self.preprocess()
 
     def __getattr__(self, item):

@@ -9,7 +9,6 @@ from Workers import MovieData
 import wikipedia
 import numpy as np
 
-
 class Engine:
 
     def __init__(self):
