@@ -13,9 +13,9 @@ chosen = ''
 
 quit_words = ['exit', 'close', 'quit', 'no', 'n', 'negative', 'cancel', 'negatory', 'nope', 'escape']
 
-genres = ['Action', 'Adventure', 'Animation' 'Comedy', 'Crime',
+genres = ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime',
           'Documentary', 'Drama', 'Family', 'Fantasy', 'History',
-          'Horror', 'Music', 'Mystery', 'Romance', 'Science'
+          'Horror', 'Music', 'Mystery', 'Romance', 'Science Fiction',
           'Thriller', 'War', 'Western']
 
 engine = Engine.Engine()
