@@ -1,8 +1,6 @@
 
-import warnings
 from Workers.Display import *
 from Workers.InputHandler import *
-from Workers import Engine
 
 # The main script for a machine-learning movie recommender
 
@@ -28,18 +26,18 @@ while chosen not in quit_words:
             print()
             for i in range(len(recs.values)):
                 print(i, recs.values[i])
-                inputer.get_more_info(recs)
-    except (KeyError, IndexError) as ke:
-        print(ke)
-        print('Sorry, we could not find that movie\n')
-    except ValueError as val:
+            inputer.get_more_info(recs)
+    except (ValueError, KeyError) as val:
         print(val)
-        print('Received incorrect input. Please try again.\n')
+        print('\nReceived unusable input. Please try again.\n')
+    except IndexError as ind:
+        print(ind)
+        print('\nSorry, a bug got in. Please try again.\n')
     if chosen not in quit_words:
-        chosen = input('Would you like to try a new search? \n')
+        cls()
+        chosen = input('\nWould you like to try a new search? \n')
 cls()
 print()
-#print('Thanks for using the GREATEST MOVIE RECOMMENDER EVER')
 print('Thanks for using')
 print()
 display_title(title)

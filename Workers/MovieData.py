@@ -1,12 +1,13 @@
 from ast import literal_eval
 from nltk.stem.snowball import SnowballStemmer
 import os
-import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import linear_kernel
 import sys
 import unicodedata
 from zipfile import ZipFile
+import pandas as pd
+import warnings
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
 
 
 class MovieData:

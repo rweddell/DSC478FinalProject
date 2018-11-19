@@ -7,7 +7,7 @@ from Workers import Engine
 # The main script for a machine-learning movie recommender
 
 #print("WELCOME TO THE WORLD'S GREATEST MOVIE RECOMMENDER")
-title = 'find\n-a-\nfilm'
+title = 'find\n- a -\nfilm'
 
 chosen = ''
 
@@ -67,7 +67,7 @@ while chosen not in quit_words:
         print(val)
         print('Received incorrect input. Please try again.\n')
     if chosen not in quit_words:
-        chosen = input('Do you want to continue? \n')
+        chosen = input('Would you like to start a new search? \n')
 cls()
 print()
 #print('Thanks for using the GREATEST MOVIE RECOMMENDER EVER')

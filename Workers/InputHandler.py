@@ -20,9 +20,12 @@ class InputHandler():
                 for i in range(len(genres)):
                     print(i, genres[i])
                 choice = int(input("\nEnter the index of the genre that you want:\n"))
+                if choice not in range(len(genres)):
+                    choice = ''
+                    continue
                 num_sim = num_movies()
             except:
-                print('Recieved bad input. Please try again.')
+                print('\nRecieved bad input. Please try again.\n')
         return self.engine.get_top_genre(choice, num_sim)
 
     def get_search_type(self):
@@ -34,7 +37,7 @@ class InputHandler():
                                         '1 Get top-rated movies for a genre\n'
                                         '2 Get movies similar to a chosen movie\n'))
             except:
-                print('Recieved bad input. Please try again.\n')
+                print('\nRecieved bad input. Please try again.\n')
         return search_type
 
     def handle_input(self, search_type):
@@ -43,7 +46,7 @@ class InputHandler():
         elif search_type == 1:
             return self.handle_genre()
         elif search_type == 2:
-            chosen = input("Enter a movie title or type 'exit' to quit:  \n")
+            chosen = input("\nEnter a movie title or type 'exit' to quit:  \n")
             return self.engine.get_content_recommendations(chosen, num_movies())
 
     def get_more_info(self, recs):
@@ -57,14 +60,14 @@ class InputHandler():
             elif more.isnumeric():
                 more = recs.title.values[int(more)]
             if more not in recs.values:
-                print("Please enter a value from the list of choices.")
+                print("\nPlease enter a value from the list of choices.\n")
             else:
                 print(find_summary(more))
             print()
 
 
 def num_movies():
-    return int(input("How many recommended movies would you like?:\n"))
+    return int(input("\nHow many recommended movies would you like?:\n"))
 
 
 def find_summary(ename):
