@@ -25,8 +25,7 @@ while chosen not in quit_words:
         if chosen not in quit_words:
             recs = inputer.handle_input(search_type)
             cls()
-            for i in range(len(recs.values)):
-                print(i, recs.values[i])
+            print(recs.to_string(header=True, justify=all))
             inputer.get_more_info(recs)
     except (ValueError, KeyError) as val:
         print(val)

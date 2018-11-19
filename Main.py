@@ -50,9 +50,10 @@ while chosen not in quit_words:
                              'Type the title or title index or type "exit":  \n')
                 if more in quit_words:
                     break
-                elif more.isnumeric():
+                elif more.isnumeric() and more in range(len(recs)):
+                    cls()
                     more = recs.title.values[int(more)]
-                if more not in recs.values:
+                elif more not in recs.values:
                     print("\nPlease enter a value from the list of choices.\n")
                 else:
                     print(engine.find_summary(more))
@@ -64,10 +65,10 @@ while chosen not in quit_words:
         print(ind)
         print('\nSorry, a bug got in. Please try again.\n')
     if chosen not in quit_words:
+        cls()
         chosen = input('\nWould you like to start a new search? \n')
 cls()
 print()
-#print('Thanks for using the GREATEST MOVIE RECOMMENDER EVER')
 print('Thanks for using')
 print()
 display_title(title)

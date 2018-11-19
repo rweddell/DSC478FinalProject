@@ -4,7 +4,7 @@ with warnings.catch_warnings(record=True) as warn:
     from Workers import Engine
 
 
-class InputHandler():
+class InputHandler:
 
     def __init__(self):
         self.engine = Engine.Engine()
@@ -69,10 +69,14 @@ class InputHandler():
             if more in quit_words:
                 break
             elif more.isnumeric():
-                more = recs.title.values[int(more)]
+                # it would be nice to clear the screen here
+                more = int(more)
+                if more in range(len(recs)):
+                    more = recs.title.values[int(more)]
             if more not in recs.values:
                 print("\nPlease enter a value from the list of choices.\n")
             else:
+                print()
                 print(find_summary(more))
             print()
 
