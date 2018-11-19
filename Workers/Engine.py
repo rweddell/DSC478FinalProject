@@ -50,7 +50,7 @@ class Engine:
         g = self.movie_data.data.apply(lambda x: pd.Series(x['genres']), axis=1).stack().reset_index(level=1, drop=True)
         g.name = 'genre'
         gen_data = self.movie_data.data.drop('genres', axis=1).join(g)
-        top_genre = gen_data[gen_data['genre'] == genre].sort_values('scores')
+        top_genre = gen_data[gen_data['genre'] == genre].sort_values('scores', ascending=False)
         return top_genre[['title', 'vote_count', 'vote_average', 'scores']].head(n)
 
     def find_summary(self, ename):
