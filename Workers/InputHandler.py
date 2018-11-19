@@ -12,7 +12,7 @@ class InputHandler():
     def handle_genre(self):
         genres = ['Action', 'Adventure', 'Animation' 'Comedy', 'Crime',
                   'Documentary', 'Drama', 'Family', 'Fantasy', 'History',
-                  'Horror', 'Music', 'Mystery', 'Romance', 'Science'
+                  'Horror', 'Music', 'Mystery', 'Romance', 'Science',
                   'Thriller', 'War', 'Western']
         choice = ''
         while not isinstance(choice, int):
