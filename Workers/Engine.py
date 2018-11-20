@@ -6,9 +6,7 @@ Retrieves DataStorage from csv file
 """
 
 from Workers import MovieData
-import wikipedia
 import numpy as np
-import pandas as pd
 
 
 class Engine:
@@ -60,8 +58,3 @@ class Engine:
         """
         top_genre = self.movie_data.gen_data[self.movie_data.gen_data['genres'] == genre].sort_values('scores', ascending=False).reset_index()
         return top_genre[['title', 'vote_count', 'vote_average', 'scores']].head(n)
-
-
-def print_sim_scores(n, matrix, index):
-    #print(sim_scores)
-    return sim_scores
