@@ -35,10 +35,10 @@ class Engine:
         # Get the movies based on indices and sort them according to weighted score
         movies = self.movie_data.data.iloc[movie_indices][['title', 'vote_count', 'vote_average', 'scores']]
         # Append similarity scores to movies
-        movies['similarity'] = sim_scores
+        movies['similarity%'] = sim_scores * 100
         movies = movies.sort_values('scores', ascending=False).reset_index()
         # Return the top 10 most similar movies
-        return movies[['title', 'vote_count', 'vote_average', 'scores', 'similarity']]
+        return movies[['title', 'vote_count', 'vote_average', 'scores', 'similarity%']]
 
     def get_top_movies(self, n):
         """
