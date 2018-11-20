@@ -108,10 +108,13 @@ class MovieData:
         self.datafile['keywords'] = self.datafile['keywords'].apply(lambda x: [snowball.stem(i) for i in x])
         self.datafile['tagline'] = self.datafile['tagline'].apply(lambda x: [snowball.stem(i) for i in x])
         self.datafile['overview'] = self.datafile['overview'].apply(lambda x: [snowball.stem(i) for i in x])
-        # self.datafile['genres'] = self.datafile['genres'].apply(lambda x: [snowball.stem(i) for i in x])
         self.datafile['keywords'] = self.datafile['keywords'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
 
     def calculate_cosine_sim(self):
+        """
+        Creates a 'wordsalad' column in the datafile and finds cosine similarity using TFIDF
+        :return:
+        """
         # Create wordsalad for Tfidf evaluation
         self.datafile['wordsalad'] = self.datafile['overview'] + self.datafile['tagline'] + self.datafile['keywords'] + self.datafile['genres']
         self.datafile['wordsalad'] = self.datafile['wordsalad'].apply(lambda x: ' '.join(x))
@@ -124,6 +127,10 @@ class MovieData:
         return cosine_sim
 
     def sort_genres(self):
+        """
+        Creates a new DataFrame sorted on the genre column
+        :return: pd.DataFrame
+        """
         g = self.datafile.apply(lambda x: pd.Series(x['genres']), axis=1).stack().reset_index(level=1, drop=True)
         g.name = 'genres'
         gen_data = self.datafile.drop('genres', axis=1).join(g)

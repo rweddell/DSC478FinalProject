@@ -29,14 +29,18 @@ class Engine:
         cosine_sim = self.movie_data.cosine_sim
         # Get the pairwise similarity scores of all movies with that movie &
         # sort the movies based on the indices of the similarity scores
-        sim_scores = np.flip(np.argsort(cosine_sim[idx]))
+        sim_scores = (np.flip(np.sort(cosine_sim[idx])))
+        sim_scores = sim_scores[0, 1:(n + 1)]
+        sim_indices = np.flip(np.argsort(cosine_sim[idx]))
         # Get the indices of the 10 most similar movies
-        movie_indices = sim_scores[0, 1:(n + 1)]
+        movie_indices = sim_indices[0, 1:(n + 1)]
         # Get the movies based on indices and sort them according to weighted score
         movies = self.movie_data.data.iloc[movie_indices][['title', 'vote_count', 'vote_average', 'scores']]
         movies = movies.sort_values('scores', ascending=False).reset_index()
+        # Append similarity scores to movies
+        movies['similarity'] = sim_scores
         # Return the top 10 most similar movies
-        return movies[['title', 'vote_count', 'vote_average', 'scores']]
+        return movies[['title', 'vote_count', 'vote_average', 'scores', 'similarity']]
 
     def get_top_movies(self, n):
         """
@@ -56,3 +60,8 @@ class Engine:
         """
         top_genre = self.movie_data.gen_data[self.movie_data.gen_data['genres'] == genre].sort_values('scores', ascending=False).reset_index()
         return top_genre[['title', 'vote_count', 'vote_average', 'scores']].head(n)
+
+
+def print_sim_scores(n, matrix, index):
+    #print(sim_scores)
+    return sim_scores
