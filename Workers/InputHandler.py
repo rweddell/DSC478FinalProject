@@ -45,16 +45,13 @@ class InputHandler:
         """
         search_type = ''
         while not isinstance(search_type, int):
-            try:
-                search_type = int(input('Enter an option number :\n\n'
-                                        '0 Get top-rated movies\n'
-                                        '1 Get top-rated movies for a genre\n'
-                                        '2 Get movies similar to a chosen movie\n'))
-                if search_type in self.quit_words:
-                    return None
-                search_type = int(search_type)
-            except:
-                print('\nReceived unusable input. Please try again.\n')
+            search_type = int(input('Enter an option number :\n\n'
+                                    '0 Get top-rated movies\n'
+                                    '1 Get top-rated movies for a genre\n'
+                                    '2 Get movies similar to a chosen movie\n'))
+            if search_type in self.quit_words:
+                return None
+            search_type = int(search_type)
         return search_type
 
     def handle_input(self, search_type):
@@ -76,7 +73,8 @@ class InputHandler:
     def get_more_info(self, recs):
         """
         Asks user if they want to know more about any of the titles
-        that were returned by a search through the data
+        that were returned by a search through the data.
+        Calls find_summary() if user desires.
         :param recs:
         :return: None
         """
@@ -109,7 +107,7 @@ def num_movies():
 
 def find_summary(ename):
     """
-    Returns the first paragraph (as a string) of the wikipedia article most closely associated with the word
+    Returns the first paragraph (as a string) of the wikipedia article most closely associated with ename
     :param ename: name of movie to search for
     :return: summary section of wikipedia for ename: string
     """
