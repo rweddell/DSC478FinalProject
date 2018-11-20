@@ -24,7 +24,10 @@ class MovieData:
         return "Attribute does not exist."
 
     def preprocess(self):
-        # Processes the data to create state for recommendation access
+        """
+        Processes the data to create state for recommendation access
+        :return: pd.DataFrame(movie data), pd.DataFrame(genre data), cosine_sim
+        """
         self.minimize_data()
         self.get_keywords()
         self.process_text()
@@ -37,6 +40,10 @@ class MovieData:
         return data, gen_data, cosine_sim
 
     def minimize_data(self):
+        """
+        Reduces dataset
+        :return: None
+        """
         # Calculate the minimum number of votes required to be in the chart (90th percentile)
         min_votes = self.datafile['vote_count'].quantile(0.90)
         # Calculate mean average vote across entire dataset ala IMDB
@@ -52,6 +59,10 @@ class MovieData:
         self.datafile.reset_index(drop=True, inplace=True)
 
     def get_keywords(self):
+        """
+        Creates 'keyword' attribute in self.datafile
+        :return: None
+        """
         # Convert IDs to int. Required for merging
         self.datafile['id'] = self.datafile['id'].astype('int')
         # Get keywords then merge them with movie metadata
@@ -71,6 +82,10 @@ class MovieData:
         self.datafile['keywords'] = self.datafile['keywords'].apply(lambda x: (i for i in x if i not in d))
 
     def process_text(self):
+        """
+        Cleans and processes movie data
+        :return: None
+        """
         # Replace NaN with an empty string
         self.datafile['overview'] = self.datafile['overview'].fillna('')
         self.datafile['tagline'] = self.datafile['tagline'].fillna('')
@@ -83,16 +98,23 @@ class MovieData:
         self.datafile['overview'] = self.datafile['overview'].apply(lambda x: x.translate(table).split())
 
     def stem_words(self):
+        """
+        Stems all words keywords, tagline, and overview
+        :return: None
+        """
         # Create stemmer object
         snowball = SnowballStemmer('english')
         # Stem the feature words
         self.datafile['keywords'] = self.datafile['keywords'].apply(lambda x: [snowball.stem(i) for i in x])
         self.datafile['tagline'] = self.datafile['tagline'].apply(lambda x: [snowball.stem(i) for i in x])
         self.datafile['overview'] = self.datafile['overview'].apply(lambda x: [snowball.stem(i) for i in x])
-        # self.datafile['genres'] = self.datafile['genres'].apply(lambda x: [snowball.stem(i) for i in x])
         self.datafile['keywords'] = self.datafile['keywords'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
 
     def calculate_cosine_sim(self):
+        """
+        Creates a 'wordsalad' column in the datafile and finds cosine similarity using TFIDF
+        :return:
+        """
         # Create wordsalad for Tfidf evaluation
         self.datafile['wordsalad'] = self.datafile['overview'] + self.datafile['tagline'] + self.datafile['keywords'] + self.datafile['genres']
         self.datafile['wordsalad'] = self.datafile['wordsalad'].apply(lambda x: ' '.join(x))
@@ -105,15 +127,20 @@ class MovieData:
         return cosine_sim
 
     def sort_genres(self):
+        """
+        Creates a new DataFrame sorted on the genre column
+        :return: pd.DataFrame
+        """
         g = self.datafile.apply(lambda x: pd.Series(x['genres']), axis=1).stack().reset_index(level=1, drop=True)
         g.name = 'genres'
         gen_data = self.datafile.drop('genres', axis=1).join(g)
         return gen_data
 
     def data_unzip(self):
+        """
+        Unzips the movies_metadata.zip file
+        :return:
+        """
         zip_ref = ZipFile(os.path.join(self.data_path, 'movies_metadata.zip'), 'r')
         zip_ref.extractall(self.data_path)
         zip_ref.close()
-
-    def data_delete(self):
-        pass

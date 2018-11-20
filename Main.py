@@ -2,7 +2,7 @@
 from Workers.Display import *
 from Workers import Engine
 
-# The main script for a machine-learning movie recommender
+# Main script for a machine-learning movie recommender
 
 title = 'find\n- a -\nfilm'
 
@@ -19,45 +19,24 @@ engine = Engine.Engine()
 
 search = [engine.get_content_recommendations, engine.get_top_genre, engine.get_top_movies]
 
-while chosen not in quit_words:
+# Main loop
+while chosen not in inputer.quit_words:
     cls()
     print('\nWecome to\n')
     display_title(title)
     try:
-        search_type = int(input('Enter an option number :\n'
-                                '0 Get top-rated movies\n'
-                                '1 Get top-rated movies for a genre\n'
-                                '2 Get movies similar to a chosen movie\n'))
-        chosen = None
-        if search_type is 1:
-            cls()
-            for i in range(len(genres)):
-                print(i, genres[i])
-            ind = int(input("\nEnter the index of the genre that you want:\n"))
-            chosen = genres[ind]
-        elif search_type is 2:
-            chosen = input("\nEnter a movie title or type 'exit' to quit:  \n")
-        num_sim = int(input("\nHow many recommended movies would you like?:\n"))
+        # Asks user for what kind of recommendation that they want
+        search_type = inputer.get_search_type()
         cls()
         recs = []
-        if chosen not in quit_words:
-            recs = engine.handle_input(search_type, chosen, num_sim)
-            print()
+        if chosen not in inputer.quit_words:
+            # Processes request
+            recs = inputer.handle_input(search_type)
+            cls()
+            # Prints results of request
             print(recs.to_string(header=True, justify=all))
-            more = ''
-            while more not in quit_words:
-                more = input('\nWould you like to know more about one of these titles?\n'
-                             'Type the title or title index or type "exit":  \n')
-                if more in quit_words:
-                    break
-                elif more.isnumeric() and more in range(len(recs)):
-                    cls()
-                    more = recs.title.values[int(more)]
-                elif more not in recs.values:
-                    print("\nPlease enter a value from the list of choices.\n")
-                else:
-                    print(engine.find_summary(more))
-                print()
+            # If desired, prints wikipedia entry for chosen movie
+            inputer.get_more_info(recs)
     except (ValueError, KeyError) as val:
         print(val)
         print('\nReceived unusable input. Please try again.\n')
@@ -66,7 +45,8 @@ while chosen not in quit_words:
         print('\nSorry, a bug got in. Please try again.\n')
     if chosen not in quit_words:
         cls()
-        chosen = input('\nWould you like to start a new search? \n')
+        # Asks user if they would like to continue, or exit
+        chosen = input('\nWould you like to try a new search? \n')
 cls()
 print()
 print('Thanks for using')
